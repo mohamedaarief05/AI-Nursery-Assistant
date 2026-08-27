@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI Nursery Assistant 🌱
 
-## Getting Started
+An AI-powered solution for improving customer support in local nurseries. Built with Next.js, Tailwind CSS, Supabase, and Vercel AI SDK.
 
-First, run the development server:
+## Setup Guide
 
-```bash
+Follow these steps to run the project locally.
+
+### 1. Install Dependencies
+Make sure you are in the project root folder.
+\`\`\`bash
+npm install
+\`\`\`
+
+### 2. Configure Supabase Database
+1. Go to [Supabase](https://supabase.com) and create a new project.
+2. Go to the SQL Editor in your Supabase dashboard.
+3. Open the `supabase_setup.sql` file located in the root of this project.
+4. Copy the entire contents of the file, paste it into the Supabase SQL editor, and click "Run". This will create all the required tables, policies, and insert sample plants.
+
+### 3. Configure Environment Variables
+1. Rename the `.env.local.example` file to `.env.local` (or create a new `.env.local` file).
+2. Get your Supabase URL and Anon Key from the Supabase Project Settings -> API.
+3. Get a Google Gemini API Key from Google AI Studio.
+4. Update the variables in `.env.local`:
+\`\`\`env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url_here
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key_here
+GOOGLE_GENERATIVE_AI_API_KEY=your_gemini_api_key_here
+\`\`\`
+
+### 4. Start the Development Server
+\`\`\`bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
+\`\`\`
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 5. Accessing the Admin Dashboard
+Navigate to \`/admin\` in the app. Since this is a prototype, the dashboard is open, but in a real production environment, you should integrate Supabase Auth to protect these routes.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## AI Immersion Project
+This project was built to demonstrate how AI can help small businesses by handling customer queries instantly, reducing missed calls, and providing 24/7 support.
