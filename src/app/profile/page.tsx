@@ -170,13 +170,11 @@ export default async function ProfilePage() {
                     )}
                     <p className="text-slate-600 text-sm mb-3">{enq.message}</p>
                     
-                    {/* @ts-expect-error */}
                     {enq.admin_reply && (
                       <div className="mt-3 bg-green-50 border border-green-100 rounded-lg p-3">
                         <p className="text-xs font-bold text-green-800 uppercase tracking-wider mb-1 flex items-center">
                           <Leaf className="w-3 h-3 mr-1" /> Nursery Support Reply
                         </p>
-                        {/* @ts-expect-error */}
                         <p className="text-sm text-green-900">{enq.admin_reply}</p>
                       </div>
                     )}

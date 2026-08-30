@@ -1,5 +1,5 @@
 import { google } from '@ai-sdk/google';
-import { streamText, Message } from 'ai';
+import { streamText } from 'ai';
 import { createClient } from '@/lib/supabase-server';
 
 // Allow streaming responses up to 30 seconds

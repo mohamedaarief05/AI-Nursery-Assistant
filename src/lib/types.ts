@@ -27,6 +27,7 @@ export type Enquiry = {
   message: string;
   status: 'New' | 'Contacted' | 'Completed';
   created_at: string;
+  admin_reply?: string;
   plants?: { name: string };
 };
 

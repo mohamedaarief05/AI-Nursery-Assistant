@@ -12,7 +12,7 @@ export default function ChatPage() {
   const prefilledPlant = searchParams.get('plant');
 
   const { messages, sendMessage, status, setMessages } = useChat({
-    initialMessages: [
+    messages: [
       {
         id: 'welcome',
         role: 'assistant',

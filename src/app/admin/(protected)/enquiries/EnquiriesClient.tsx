@@ -20,7 +20,7 @@ export default function EnquiriesClient({ initialEnquiries }: { initialEnquiries
 
   const handleStatusChange = async (id: string, newStatus: string) => {
     // Optimistic update
-    setEnquiries(enquiries.map(e => e.id === id ? { ...e, status: newStatus } : e));
+    setEnquiries(enquiries.map(e => e.id === id ? { ...e, status: newStatus as Enquiry['status'] } : e));
     
     // DB update
     const { error } = await supabase
@@ -37,7 +37,6 @@ export default function EnquiriesClient({ initialEnquiries }: { initialEnquiries
 
   const openReplyModal = (enquiry: Enquiry) => {
     setSelectedEnquiry(enquiry);
-    // @ts-expect-error
     setReplyText(enquiry.admin_reply || '');
     setIsReplyModalOpen(true);
   };
@@ -63,8 +62,7 @@ export default function EnquiriesClient({ initialEnquiries }: { initialEnquiries
 
     setEnquiries(enquiries.map(e => 
       e.id === selectedEnquiry.id 
-        // @ts-expect-error
-        ? { ...e, admin_reply: replyText, status: 'Contacted' } 
+        ? { ...e, admin_reply: replyText, status: 'Contacted' as const } 
         : e
     ));
     
@@ -107,11 +105,9 @@ export default function EnquiriesClient({ initialEnquiries }: { initialEnquiries
                     </div>
                   )}
                   <p className="text-slate-600 text-sm mb-2">{enquiry.message}</p>
-                  {/* @ts-expect-error */}
                   {enquiry.admin_reply && (
                     <div className="bg-blue-50 border border-blue-100 p-3 rounded-lg mt-2">
                       <p className="text-xs font-semibold text-blue-800 mb-1">Your Reply:</p>
-                      {/* @ts-expect-error */}
                       <p className="text-sm text-blue-900">{enquiry.admin_reply}</p>
                     </div>
                   )}
