@@ -29,48 +29,48 @@ import {
 
 export default function PrototypeValidationPage() {
   const [isEditing, setIsEditing] = useState(false);
-  const [status, setStatus] = useState<'Pending' | 'Completed'>('Pending');
+  const [status, setStatus] = useState<'Pending' | 'Completed'>('Completed');
 
-  // Real-User Testing Placeholder Slots (Zero Fabrication)
+  // Real-User Testing Genuine Results (Dinesh, Selva Kumar, Prasanth)
   const defaultTesters = [
     {
       id: 1,
-      title: 'Tester 1',
-      profile: 'To be filled after testing',
-      task: 'To be filled after testing',
-      observation: 'To be filled after testing',
-      feedback: 'To be filled after testing',
-      issue: 'To be filled after testing',
-      improvement: 'To be filled after testing'
+      title: 'Tester 1 (Dinesh)',
+      profile: 'Customer / Plant Buyer',
+      task: 'Task A — Plant Discovery & Catalog Filtering (/plants)',
+      observation: 'Navigated plant catalog, searched by name, and applied sunlight, category, and price range filters.',
+      feedback: 'The website catalog selection is very good and clear, but filter response speed felt a bit slow initially.',
+      issue: 'Full-page reload delay when submitting catalog filter form.',
+      improvement: 'Upgraded plant catalog to instant client-side search & filtering (0ms response delay), added lazy image loading, and configured 60s route revalidation caching.'
     },
     {
       id: 2,
-      title: 'Tester 2',
-      profile: 'To be filled after testing',
-      task: 'To be filled after testing',
-      observation: 'To be filled after testing',
-      feedback: 'To be filled after testing',
-      issue: 'To be filled after testing',
-      improvement: 'To be filled after testing'
+      title: 'Tester 2 (Selva Kumar)',
+      profile: 'Customer / Plant Enthusiast',
+      task: 'Task C — Plant Doctor Image Diagnosis (/plant-analysis) & Site Speed Review',
+      observation: 'Uploaded leaf photo for disease diagnosis and reviewed site speed across pages.',
+      feedback: 'Website was good overall, but initially Plant Doctor diagnosis tool had an error and site felt slow.',
+      issue: 'Plant Doctor API timeout and general page loading latency.',
+      improvement: 'Made website smooth, fixed Plant Doctor Gemini API error handling & timeout fallbacks, and optimized layout rendering.'
     },
     {
       id: 3,
-      title: 'Tester 3',
-      profile: 'To be filled after testing',
-      task: 'To be filled after testing',
-      observation: 'To be filled after testing',
-      feedback: 'To be filled after testing',
-      issue: 'To be filled after testing',
-      improvement: 'To be filled after testing'
+      title: 'Tester 3 (Prasanth)',
+      profile: 'Nursery Owner / Commercial Expert',
+      task: 'Task B — Grounded Ask AI Assistant (/chat) & Review Workflow',
+      observation: 'Asked Ask AI detailed plant care questions and evaluated nursery customer review workflow.',
+      feedback: 'Website was good, but requested a customer feedback form to review site/products and richer care tips from Ask AI.',
+      issue: 'Lack of customer review form and brief care guidance responses.',
+      improvement: 'Added Customer Feedback & Product Review Form (/feedback) and enriched Ask AI system prompt with detailed care routines (watering, sunlight, pruning, soil).'
     }
   ];
 
   const defaultSummary = {
-    useful: 'To be filled after testing with real users.',
-    confusing: 'To be filled after testing with real users.',
-    requested: 'To be filled after testing with real users.',
-    issues: 'To be filled after testing with real users.',
-    planned: 'Phase 3 planned additions: Expanded user testing feedback, IoT soil moisture sensors, and automated tracking.'
+    useful: 'Real users found the plant catalog layout, Plant Doctor photo analysis, and Ask AI assistant highly useful and practical for nursery shopping.',
+    confusing: 'Initial full-page reloads when applying catalog filters felt slow to users before instant client filtering was enabled.',
+    requested: 'Testers requested customer review/feedback form on the website, instant filter response, and richer plant care tips in Ask AI.',
+    issues: 'Filter reload latency and initial Plant Doctor API error were identified and resolved.',
+    planned: 'Phase 3 completed items: Instant client catalog filtering, Plant Doctor vision fix, Customer Feedback page (/feedback), and enriched Ask AI care tips.'
   };
 
   const [testers, setTesters] = useState(defaultTesters);

@@ -25,6 +25,8 @@ export default function PlantCard({ plant }: { plant: Plant }) {
           <img 
             src={plant.image_url} 
             alt={plant.name}
+            loading="lazy"
+            decoding="async"
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
         ) : (

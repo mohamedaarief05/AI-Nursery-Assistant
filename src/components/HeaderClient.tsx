@@ -52,6 +52,9 @@ export default function HeaderClient({ userEmail }: HeaderClientProps) {
           <Link href="/about" className="text-slate-600 hover:text-green-700 transition">
             About
           </Link>
+          <Link href="/feedback" className="text-slate-600 hover:text-green-700 transition">
+            Feedback
+          </Link>
           <Link href="/contact" className="text-slate-600 hover:text-green-700 transition">
             Contact
           </Link>
