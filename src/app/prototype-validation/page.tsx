@@ -74,6 +74,16 @@ export default function PrototypeValidationPage() {
   // Load from localStorage on mount
   useEffect(() => {
     try {
+      const CURRENT_VERSION = 'v3_dinesh_btech';
+      const savedVersion = localStorage.getItem('validation_version');
+      if (savedVersion !== CURRENT_VERSION) {
+        localStorage.removeItem('validation_status');
+        localStorage.removeItem('validation_testers');
+        localStorage.removeItem('validation_summary');
+        localStorage.setItem('validation_version', CURRENT_VERSION);
+        return;
+      }
+
       const savedStatus = localStorage.getItem('validation_status');
       const savedTesters = localStorage.getItem('validation_testers');
       const savedSummary = localStorage.getItem('validation_summary');
