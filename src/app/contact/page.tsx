@@ -2,12 +2,13 @@ import { MapPin, Phone, Clock, Mail, Bot } from 'lucide-react';
 import EnquiryForm from '@/components/EnquiryForm';
 import Link from 'next/link';
 
-export default function ContactPage({
+export default async function ContactPage({
   searchParams,
 }: {
-  searchParams: { plant_id?: string }
+  searchParams: Promise<{ plant_id?: string }>
 }) {
-  const plantId = searchParams?.plant_id;
+  const params = await searchParams;
+  const plantId = params?.plant_id;
 
   return (
     <div className="container mx-auto px-4 py-12 max-w-6xl">
