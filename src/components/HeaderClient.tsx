@@ -32,30 +32,30 @@ export default function HeaderClient({ userEmail }: HeaderClientProps) {
         </Link>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden lg:flex items-center space-x-6 text-sm font-medium">
-          <Link href="/" className="text-slate-600 hover:text-green-700 transition">
+        <nav className="hidden lg:flex items-center space-x-3.5 xl:space-x-5 text-sm font-medium">
+          <Link href="/" className="text-slate-600 hover:text-green-700 transition whitespace-nowrap">
             Home
           </Link>
-          <Link href="/plants" className="text-slate-600 hover:text-green-700 transition">
+          <Link href="/plants" className="text-slate-600 hover:text-green-700 transition whitespace-nowrap">
             Plants
           </Link>
-          <Link href="/find-my-plant" className="text-slate-600 hover:text-green-700 transition">
+          <Link href="/find-my-plant" className="text-slate-600 hover:text-green-700 transition whitespace-nowrap">
             Find My Plant
           </Link>
-          <Link href="/plant-analysis" className="text-slate-600 hover:text-green-700 transition flex items-center gap-1">
+          <Link href="/plant-analysis" className="text-slate-600 hover:text-green-700 transition flex items-center gap-1 whitespace-nowrap">
             <Camera className="w-4 h-4 text-emerald-600" />
             <span>Plant Doctor</span>
           </Link>
-          <Link href="/project-dashboard" className="text-emerald-700 hover:text-emerald-800 font-extrabold transition flex items-center gap-1 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200">
-            <span>Project Dashboard</span>
+          <Link href="/project-dashboard" className="text-slate-600 hover:text-green-700 transition whitespace-nowrap">
+            Project Dashboard
           </Link>
-          <Link href="/about" className="text-slate-600 hover:text-green-700 transition">
+          <Link href="/about" className="text-slate-600 hover:text-green-700 transition whitespace-nowrap">
             About
           </Link>
-          <Link href="/feedback" className="text-slate-600 hover:text-green-700 transition">
+          <Link href="/feedback" className="text-slate-600 hover:text-green-700 transition whitespace-nowrap">
             Feedback
           </Link>
-          <Link href="/contact" className="text-slate-600 hover:text-green-700 transition">
+          <Link href="/contact" className="text-slate-600 hover:text-green-700 transition whitespace-nowrap">
             Contact
           </Link>
         </nav>
