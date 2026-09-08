@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Mail, Bot, ShoppingBag, Plus, Minus, ArrowRight } from 'lucide-react';
+import { Mail, Bot, ShoppingBag, Plus, Minus, ArrowRight, Camera } from 'lucide-react';
 import { Plant } from '@/lib/types';
 import { useCart } from '@/context/CartContext';
 
@@ -81,21 +81,28 @@ export default function PlantActionButtons({ plant }: { plant: Plant }) {
         </div>
       )}
 
-      {/* Secondary Actions */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+      {/* Secondary AI & Care Actions */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-2">
         <Link 
-          href={`/contact?plant_id=${plant.id}`}
-          className="bg-white border-2 border-slate-200 text-slate-700 hover:bg-slate-50 font-bold py-3 px-4 rounded-xl transition flex items-center justify-center text-sm"
+          href="/plant-analysis"
+          className="bg-emerald-50 border border-emerald-300 text-emerald-800 hover:bg-emerald-100 font-bold py-3 px-3 rounded-xl transition flex items-center justify-center text-xs text-center"
         >
-          <Mail className="w-4 h-4 mr-2 text-slate-500" />
-          Enquire About Plant
+          <Camera className="w-4 h-4 mr-1.5 text-emerald-600 flex-shrink-0" />
+          <span>Plant Doctor 📸</span>
         </Link>
         <Link 
           href={`/chat?plant=${encodeURIComponent(plant.name)}`}
-          className="bg-green-50 border border-green-200 text-green-800 hover:bg-green-100 font-bold py-3 px-4 rounded-xl transition flex items-center justify-center text-sm"
+          className="bg-slate-100 border border-slate-200 text-slate-800 hover:bg-slate-200 font-bold py-3 px-3 rounded-xl transition flex items-center justify-center text-xs text-center"
         >
-          <Bot className="w-4 h-4 mr-2 text-green-600" />
-          Ask AI Care Guide
+          <Bot className="w-4 h-4 mr-1.5 text-slate-600 flex-shrink-0" />
+          <span>Ask AI Care</span>
+        </Link>
+        <Link 
+          href={`/contact?plant_id=${plant.id}`}
+          className="bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 font-bold py-3 px-3 rounded-xl transition flex items-center justify-center text-xs text-center"
+        >
+          <Mail className="w-4 h-4 mr-1.5 text-slate-500 flex-shrink-0" />
+          <span>Enquire Plant</span>
         </Link>
       </div>
     </div>
