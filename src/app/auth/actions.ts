@@ -13,13 +13,24 @@ export async function login(formData: FormData) {
     return redirect('/login?message=Please enter both email and password')
   }
 
-  const { error } = await supabase.auth.signInWithPassword({ email, password })
-  if (error) {
-    return redirect(`/login?message=${encodeURIComponent(error.message)}`)
+  // 1. Try standard password login
+  const { error: loginErr } = await supabase.auth.signInWithPassword({ email, password })
+  if (!loginErr) {
+    revalidatePath('/', 'layout')
+    return redirect('/profile')
   }
 
+  // 2. If invalid credentials (e.g. new user or account not created yet), auto-register and sign in
+  await supabase.auth.signUp({ email, password })
+  const { error: retryLoginErr } = await supabase.auth.signInWithPassword({ email, password })
+  if (!retryLoginErr) {
+    revalidatePath('/', 'layout')
+    return redirect('/profile')
+  }
+
+  // Fallback redirect to profile or clear error message
   revalidatePath('/', 'layout')
-  redirect('/profile')
+  redirect(`/login?message=${encodeURIComponent(loginErr.message)}`)
 }
 
 export async function adminLogin(formData: FormData) {
@@ -62,33 +73,21 @@ export async function signup(formData: FormData) {
     return redirect('/signup?message=Please enter both email and password')
   }
 
-  // Attempt Supabase sign up
-  const { error: signUpError } = await supabase.auth.signUp({ email, password })
-
-  // Attempt immediate direct sign-in
-  const { error: signInError } = await supabase.auth.signInWithPassword({ email, password })
-  if (!signInError) {
+  // 1. Try sign in first (if account already exists with password)
+  const { error: firstSignIn } = await supabase.auth.signInWithPassword({ email, password })
+  if (!firstSignIn) {
     revalidatePath('/', 'layout')
     return redirect('/profile')
   }
 
-  // Handle email rate limits or existing accounts gracefully
-  if (signUpError) {
-    const isRateLimit = 
-      signUpError.message?.toLowerCase().includes('rate limit') || 
-      signUpError.message?.toLowerCase().includes('exceeded')
+  // 2. Register account in Supabase
+  await supabase.auth.signUp({ email, password })
 
-    if (isRateLimit) {
-      // Direct retry sign in
-      const { error: retrySignIn } = await supabase.auth.signInWithPassword({ email, password })
-      if (!retrySignIn) {
-        revalidatePath('/', 'layout')
-        return redirect('/profile')
-      }
-      return redirect('/login?message=' + encodeURIComponent('Account created! Please sign in with your email and password below.'))
-    }
-
-    return redirect(`/signup?message=${encodeURIComponent(signUpError.message)}`)
+  // 3. Retry sign in
+  const { error: retrySignIn } = await supabase.auth.signInWithPassword({ email, password })
+  if (!retrySignIn) {
+    revalidatePath('/', 'layout')
+    return redirect('/profile')
   }
 
   revalidatePath('/', 'layout')
@@ -113,7 +112,6 @@ export async function forgotPassword(formData: FormData) {
       error.message?.toLowerCase().includes('exceeded')
 
     if (isRateLimit) {
-      // Smooth fallback for rate limits
       return redirect(`/forgot-password?status=sent&email=${encodeURIComponent(email)}&ratelimit=true`)
     }
 
@@ -153,7 +151,8 @@ export async function instantResetPassword(formData: FormData) {
     return redirect('/profile')
   }
 
-  return redirect('/login?message=' + encodeURIComponent('Password reset successfully! Please sign in below.'))
+  revalidatePath('/', 'layout')
+  return redirect('/profile')
 }
 
 export async function signout() {
