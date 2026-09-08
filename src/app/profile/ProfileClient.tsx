@@ -1,15 +1,17 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { User, Mail, Calendar, MessageSquare, Leaf, ShoppingBag, Edit3, Phone, MapPin, Sparkles, Save, X, CheckCircle2 } from 'lucide-react';
+import { User, Mail, Calendar, MessageSquare, Leaf, ShoppingBag, Edit3, Phone, MapPin, Sparkles, Save, X, CheckCircle2, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { signout } from '@/app/auth/actions';
+import { createClient } from '@/lib/supabase';
 
 interface ProfileClientProps {
   user: {
     id: string;
     email: string;
     created_at?: string;
+    user_metadata?: Record<string, any>;
   };
   isAdmin: boolean;
   userOrders: any[];
@@ -18,49 +20,74 @@ interface ProfileClientProps {
 
 export default function ProfileClient({ user, isAdmin, userOrders, userEnquiries }: ProfileClientProps) {
   const [isEditing, setIsEditing] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [fullName, setFullName] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
   const [preference, setPreference] = useState('Indoor Plants');
   const [showSuccessToast, setShowSuccessToast] = useState(false);
 
-  // Load saved user profile details from localStorage
+  // Load saved user profile details from user_metadata or localStorage
   useEffect(() => {
     try {
+      const meta = user.user_metadata || {};
       const storageKey = `profile_info_${user.email}`;
       const saved = localStorage.getItem(storageKey);
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (parsed.fullName) setFullName(parsed.fullName);
-        if (parsed.phone) setPhone(parsed.phone);
-        if (parsed.address) setAddress(parsed.address);
-        if (parsed.preference) setPreference(parsed.preference);
-      } else {
-        // Fallback default name from email
-        const defaultName = user.email.split('@')[0];
-        setFullName(defaultName.charAt(0).toUpperCase() + defaultName.slice(1));
-      }
-    } catch {}
-  }, [user.email]);
+      const parsed = saved ? JSON.parse(saved) : {};
 
-  const handleSaveProfile = (e: React.FormEvent) => {
+      const name = parsed.fullName || meta.full_name || meta.fullName || (user.email ? user.email.split('@')[0] : 'User');
+      const ph = parsed.phone || meta.phone || '';
+      const addr = parsed.address || meta.address || '';
+      const pref = parsed.preference || meta.preference || 'Indoor Plants';
+
+      setFullName(name.charAt(0).toUpperCase() + name.slice(1));
+      setPhone(ph);
+      setAddress(addr);
+      setPreference(pref);
+    } catch {}
+  }, [user]);
+
+  const handleSaveProfile = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSaving(true);
+
     try {
+      const cleanName = fullName.trim();
+      const cleanPhone = phone.trim();
+      const cleanAddress = address.trim();
+
       const profileData = {
-        fullName: fullName.trim(),
-        phone: phone.trim(),
-        address: address.trim(),
+        fullName: cleanName,
+        phone: cleanPhone,
+        address: cleanAddress,
         preference,
         updatedAt: new Date().toISOString()
       };
+
+      // 1. Save to local storage for instant offline / client persistence
       const storageKey = `profile_info_${user.email}`;
       localStorage.setItem(storageKey, JSON.stringify(profileData));
-    } catch {}
 
-    setIsEditing(false);
-    setShowSuccessToast(true);
-    setTimeout(() => setShowSuccessToast(false), 4000);
+      // 2. Save to Supabase Auth user_metadata
+      const supabase = createClient();
+      await supabase.auth.updateUser({
+        data: {
+          full_name: cleanName,
+          phone: cleanPhone,
+          address: cleanAddress,
+          preference: preference
+        }
+      });
+    } catch (err) {
+      console.error('Failed to update Supabase user metadata:', err);
+    } finally {
+      setIsSaving(false);
+      setIsEditing(false);
+      setShowSuccessToast(true);
+      setTimeout(() => setShowSuccessToast(false), 4000);
+    }
   };
+
 
   const formatDate = (dateStr?: string) => {
     if (!dateStr) return 'Recently';
@@ -389,9 +416,18 @@ export default function ProfileClient({ user, isAdmin, userOrders, userEnquiries
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded-xl text-xs transition shadow-xs flex items-center justify-center gap-1.5"
+                  disabled={isSaving}
+                  className="flex-1 py-3 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-extrabold rounded-xl text-xs transition shadow-xs flex items-center justify-center gap-1.5"
                 >
-                  <Save className="w-4 h-4" /> Save Changes
+                  {isSaving ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" /> Saving...
+                    </>
+                  ) : (
+                    <>
+                      <Save className="w-4 h-4" /> Save Changes
+                    </>
+                  )}
                 </button>
               </div>
             </form>
