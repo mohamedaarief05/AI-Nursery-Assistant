@@ -23,7 +23,7 @@ import {
 
 export const metadata = {
   title: 'Prototype & Validation Report | AI Nursery Assistant',
-  description: 'Documenting the prototype overview, 35% completion status, user testing methodology, and structured feedback placeholders for AI Nursery Assistant.',
+  description: 'Documenting the prototype overview, Phase 2 milestone status, user testing methodology, and structured feedback placeholders for AI Nursery Assistant.',
 };
 
 export default function PrototypeValidationPage() {
@@ -128,7 +128,7 @@ export default function PrototypeValidationPage() {
           </h1>
 
           <p className="text-slate-600 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed mb-8">
-            Documenting the functional prototype architecture, 35% completion milestone, testing methodology, and structured feedback framework ready for live user validation.
+            Documenting the functional prototype architecture, Phase 2 milestone achievements, testing methodology, and structured feedback framework ready for live user validation.
           </p>
 
           {/* Key Metric Badges */}
@@ -136,7 +136,7 @@ export default function PrototypeValidationPage() {
             <div className="p-3 bg-emerald-50 rounded-2xl border border-emerald-200">
               <span className="text-[10px] font-bold uppercase text-emerald-800 block">Project Status</span>
               <span className="text-sm font-black text-emerald-900 flex items-center gap-1">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600" /> 35% Completed
+                <CheckCircle2 className="w-4 h-4 text-emerald-600" /> Phase 2 Complete
               </span>
             </div>
             <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100">
@@ -167,7 +167,7 @@ export default function PrototypeValidationPage() {
               Section 1
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-slate-800 mt-2">
-              1. Prototype Overview & 35% Development Status
+              1. Prototype Overview & Phase 2 Development Status
             </h2>
           </div>
 
@@ -177,7 +177,7 @@ export default function PrototypeValidationPage() {
                 <Bot className="w-4 h-4 text-emerald-600" /> What the Current Prototype Does
               </h3>
               <p>
-                The <strong>AI Nursery Assistant</strong> is an early-stage, 35% completed functional prototype designed to bridge the gap between plant nursery buyers and plant care knowledge. It combines a real-time database-grounded plant catalog, conversational AI care assistance, fast multimodal vision leaf health diagnosis, automated space-matching quiz, and a secure admin order management portal.
+                The <strong>AI Nursery Assistant</strong> is a Phase 2 completed functional prototype designed to bridge the gap between plant nursery buyers and plant care knowledge. It combines a real-time database-grounded plant catalog, conversational AI care assistance, fast multimodal vision leaf health diagnosis, automated space-matching quiz, and a secure admin order management portal.
               </p>
             </div>
 
@@ -195,7 +195,7 @@ export default function PrototypeValidationPage() {
           <div className="p-4 bg-emerald-50 rounded-2xl border border-emerald-200 flex items-start gap-3">
             <Award className="w-5 h-5 text-emerald-700 flex-shrink-0 mt-0.5" />
             <div className="text-xs text-emerald-950 leading-relaxed">
-              <strong>Early-Stage Milestone Note:</strong> This application is currently at the <strong>35% Project Milestone</strong>. All core user journeys (catalog search, AI care chat, photo diagnosis, shopping cart, UPI UTR checkout, digital PNG invoicing, and admin management) are fully working and ready for live user validation. Advanced features like IoT moisture sensor integration and AR plant placement are planned for Phase 3.
+              <strong>Phase 2 Milestone Note:</strong> This application is currently at the <strong>Phase 2 Milestone</strong>. All core user journeys (catalog search, AI care chat, photo diagnosis, shopping cart, UPI UTR checkout, digital PNG invoicing, and admin management) are fully working and ready for live user validation. Advanced features like IoT moisture sensor integration and AR plant placement are planned for Phase 3.
             </div>
           </div>
         </section>

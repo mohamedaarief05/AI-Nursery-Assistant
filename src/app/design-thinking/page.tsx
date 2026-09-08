@@ -113,7 +113,7 @@ export default function DesignThinkingPage() {
 
           <div className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-800 text-xs font-extrabold px-3.5 py-1.5 rounded-full border border-emerald-200 mb-4">
             <Award className="w-4 h-4 text-emerald-600" />
-            <span>Academic Review Portfolio • 35% Milestone Verified</span>
+            <span>Academic Review Portfolio • Phase 2 Milestone Verified</span>
           </div>
 
           <h1 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight mb-4 leading-tight">
@@ -144,7 +144,7 @@ export default function DesignThinkingPage() {
             <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100">
               <span className="text-[10px] font-bold uppercase text-slate-400 block">Review Progress</span>
               <span className="text-xs font-extrabold text-emerald-700 flex items-center gap-1">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> 35% Completed
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> Phase 2 Complete
               </span>
             </div>
             <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100">
