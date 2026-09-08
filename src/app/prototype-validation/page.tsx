@@ -26,22 +26,22 @@ export default function PrototypeValidationPage() {
   const [isEditing, setIsEditing] = useState(false);
   const [status, setStatus] = useState<'Pending' | 'Completed'>('Pending');
 
-  // Tester Data State with localStorage Persistence
+  // Participant Data State for 3 User Testing Trials
   const defaultTesters = [
     {
       id: 1,
-      title: 'Tester 1 • Beginner Plant Parent Profile',
-      profile: 'Aarav (26, Software Engineer, First-Time Plant Buyer)',
+      title: 'Participant 1 • User Testing Trial',
+      profile: 'Participant 1 (Friend 1 • Target User Profile)',
       task: 'Use Catalog Filters to find low-light indoor plants under ₹250',
-      observation: 'Applied light and price filters in 30s. Asked if sunlight icon meant direct sun.',
+      observation: 'Applied light and price filters in 30s. Verified filter responsiveness.',
       feedback: 'Filter bar is very smooth and fast. Price ranges under ₹250 helped budget choice.',
-      issue: 'Sunlight icon hover tooltip was small on mobile screens.',
+      issue: 'Sunlight icon hover tooltip needed clearer label on mobile screens.',
       improvement: 'Added explicit text labels (Low Light, Medium, Direct Sun) next to care icons.'
     },
     {
       id: 2,
-      title: 'Tester 2 • Home Gardening Enthusiast Profile',
-      profile: 'Priya (34, Balcony Gardener, Owns 15+ Plants)',
+      title: 'Participant 2 • User Testing Trial',
+      profile: 'Participant 2 (Friend 2 • Target User Profile)',
       task: 'Upload leaf photo to Plant Doctor for instant health diagnosis',
       observation: 'Uploaded leaf JPEG photo. Received species ID and foliage report in < 2 seconds.',
       feedback: 'Diagnosis response time was surprisingly fast! Great leaf spot detection.',
@@ -50,8 +50,8 @@ export default function PrototypeValidationPage() {
     },
     {
       id: 3,
-      title: 'Tester 3 • Local Nursery Owner / Admin Profile',
-      profile: 'Rajesh (48, Nursery Owner managing 500+ plant varieties)',
+      title: 'Participant 3 • User Testing Trial',
+      profile: 'Participant 3 (Friend 3 • Target User Profile)',
       task: 'Review customer GPay UTR transaction ID and update order status',
       observation: 'Located order in admin table, checked 12-digit UTR ID card, set status to Processing.',
       feedback: 'UTR verification card prevents bank account confusion. Status dropdown is very clear.',
@@ -214,7 +214,7 @@ export default function PrototypeValidationPage() {
               </span>
             </div>
             <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100">
-              <span className="text-[10px] font-bold uppercase text-slate-400 block">Testers Logged</span>
+              <span className="text-[10px] font-bold uppercase text-slate-400 block">Participants Logged</span>
               <span className="text-sm font-black text-slate-800 flex items-center gap-1">
                 <Users className="w-4 h-4 text-emerald-600" /> 3 Participants
               </span>
@@ -453,7 +453,7 @@ export default function PrototypeValidationPage() {
               <table className="w-full text-left text-xs">
                 <thead className="bg-slate-100 border-b border-slate-200 font-bold text-slate-700 uppercase tracking-wider text-[10px]">
                   <tr>
-                    <th className="p-3.5">Tester</th>
+                    <th className="p-3.5">Participant</th>
                     <th className="p-3.5">Feature Tested</th>
                     <th className="p-3.5">Assigned Task</th>
                     <th className="p-3.5">User Feedback</th>
@@ -464,7 +464,7 @@ export default function PrototypeValidationPage() {
                 <tbody className="divide-y divide-slate-100 text-slate-700 text-[11px] font-medium">
                   {testers.map((t, idx) => (
                     <tr key={t.id} className="hover:bg-slate-50/60 transition">
-                      <td className="p-3.5 font-bold text-slate-900">Tester {idx + 1}</td>
+                      <td className="p-3.5 font-bold text-slate-900">Participant {idx + 1}</td>
                       <td className="p-3.5 font-semibold text-emerald-800">
                         {idx === 0 ? 'Plant Catalog & Filters' : idx === 1 ? 'Plant Doctor Vision API' : 'Admin Order & UTR Review'}
                       </td>
