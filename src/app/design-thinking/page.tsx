@@ -29,30 +29,30 @@ export default function DesignThinkingPage() {
   const personas = [
     {
       id: 'persona-1',
-      tag: 'Persona 1 • Technical & Buyer Reviewer',
-      name: 'Dinesh',
-      role: 'B.Tech Engineering Student & Plant Buyer',
+      tag: 'Persona 1 • Urban Plant Buyer',
+      name: 'Alex (Apartment Resident)',
+      role: 'Urban Apartment Resident & Plant Buyer',
       avatarBg: 'bg-emerald-100 text-emerald-800',
       avatarIcon: '💻',
       goals: [
-        'Filter plant catalog easily by room lighting and price budget',
-        'Ensure smooth, fast website execution speed and page transitions'
+        'Filter plant catalog easily by balcony lighting and price budget',
+        'Find low-maintenance indoor plants suitable for apartment living'
       ],
       needs: [
-        'Multi-criteria catalog filters (low light, under ₹250)',
-        'Optimized static asset bundling and fast UI responsiveness'
+        'Multi-criteria catalog filters (low light, budget under ₹250)',
+        'Clear, practical plant care instructions'
       ],
       painPoints: [
-        'Experienced website execution speed latency during initial page loads',
-        'Confusing icon-only care tags on mobile screens without clear text'
+        'Uncertainty about room light levels leading to plant mortality',
+        'Difficulty choosing plants without in-person nursery assistance'
       ],
-      solutionFit: 'Tested Plant Catalog & Multi-Filters. Website speed bundling was optimized to ensure smooth and fast user interaction.'
+      solutionFit: 'Tested Plant Catalog & Multi-Filters. Smart catalog filtering provides instant matching for room lighting conditions.'
     },
     {
       id: 'persona-2',
       tag: 'Persona 2 • Nursery Customer',
-      name: 'Selva Kumar',
-      role: 'Plant Nursery Customer & Regular Buyer',
+      name: 'Sam (Care Enthusiast)',
+      role: 'Plant Enthusiast & Home Gardener',
       avatarBg: 'bg-blue-100 text-blue-800',
       avatarIcon: '🪴',
       goals: [
@@ -61,19 +61,19 @@ export default function DesignThinkingPage() {
       ],
       needs: [
         'Simple, fast photo upload for instant leaf disease diagnosis',
-        'Reliable API execution with zero photo processing errors'
+        'Reliable disease diagnosis recommendations'
       ],
       painPoints: [
-        'Website loading speed felt slow during initial navigation',
-        'Plant Doctor photo diagnosis tool was not working properly initially'
+        'Yellowing leaves and unknown plant pests without expert advice',
+        'Lack of immediate access to botanists outside store hours'
       ],
-      solutionFit: 'Evaluated Plant Doctor Vision API. System overhaul fixed photo upload stability and optimized diagnosis execution speed.'
+      solutionFit: 'Tested Plant Doctor Vision API. Multimodal vision model analyzes leaf photos in under 2 seconds.'
     },
     {
       id: 'persona-3',
-      tag: 'Persona 3 • Business Stakeholder',
-      name: 'Prasanth',
-      role: 'Local Plant Nursery Owner & Evaluator',
+      tag: 'Persona 3 • Business Owner',
+      name: 'Taylor (Nursery Manager)',
+      role: 'Local Plant Nursery Owner & Manager',
       avatarBg: 'bg-amber-100 text-amber-800',
       avatarIcon: '🏪',
       goals: [
@@ -82,13 +82,13 @@ export default function DesignThinkingPage() {
       ],
       needs: [
         'Rich, comprehensive AI plant care advice (sunlight, watering, soil mix)',
-        'Dedicated customer review & feedback form on the website'
+        'Dedicated customer review & feedback channel for nursery visitors'
       ],
       painPoints: [
-        'Basic AI answers lacking deep botanical care guidance',
-        'No built-in digital customer review channel for nursery visitors'
+        'Nursery staff overload answering repetitive care questions during busy hours',
+        'Lack of digital customer review system for off-site visitors'
       ],
-      solutionFit: 'Assessed commercial & AI features. Enriched Ask AI care tips knowledge base and planned customer review feedback form channels.'
+      solutionFit: 'Assessed commercial & AI features. Grounded AI assistant handles repetitive customer care questions 24/7.'
     }
   ];
 

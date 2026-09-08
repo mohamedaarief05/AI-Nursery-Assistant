@@ -61,7 +61,7 @@ Traditional local plant nurseries face significant customer drop-offs caused by:
 
 ### 7. Design Thinking Portfolio (`/design-thinking`)
 - 5-stage human-centered Design Thinking journey: **Empathize**, **Define Personas**, **Problem Statement**, **Ideation Concepts**, and **Solution Impact Matrix**.
-- Features 3 representative user persona profiles (Dinesh, Selva Kumar, Prasanth).
+- Features 3 representative user persona profiles (Urban Apartment Plant Buyer, Care Enthusiast, Nursery Owner).
 
 ### 8. Prototype & Validation Report (`/prototype-validation`)
 - Phase 2 milestone documentation featuring real-user testing logs, Before/After visual improvement slots, and a live interactive report editor.

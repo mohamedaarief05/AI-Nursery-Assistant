@@ -95,7 +95,7 @@ export default function FeedbackPage() {
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder="e.g. Dinesh, Selva Kumar, Prasanth"
+                    placeholder="Enter your full name..."
                     className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white"
                   />
                 </div>

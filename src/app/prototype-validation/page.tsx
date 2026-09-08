@@ -97,9 +97,22 @@ export default function PrototypeValidationPage() {
   const [summary, setSummary] = useState(defaultSummary);
   const [evidenceList, setEvidenceList] = useState<EvidenceItem[]>(defaultEvidence);
 
-  // Load saved real tester data & evidence from localStorage
+  // Load saved real tester data & evidence from localStorage, purging legacy names if present
   useEffect(() => {
     try {
+      const savedTestersStr = localStorage.getItem('real_validation_testers');
+      if (savedTestersStr && (savedTestersStr.includes('Dinesh') || savedTestersStr.includes('Selva') || savedTestersStr.includes('Prasanth'))) {
+        localStorage.removeItem('real_validation_status');
+        localStorage.removeItem('real_validation_testers');
+        localStorage.removeItem('real_validation_summary');
+        localStorage.removeItem('real_validation_evidence');
+        setStatus('Pending');
+        setTesters(defaultTesters);
+        setSummary(defaultSummary);
+        setEvidenceList(defaultEvidence);
+        return;
+      }
+
       const savedStatus = localStorage.getItem('real_validation_status');
       const savedTesters = localStorage.getItem('real_validation_testers');
       const savedSummary = localStorage.getItem('real_validation_summary');
