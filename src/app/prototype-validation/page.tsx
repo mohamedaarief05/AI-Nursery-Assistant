@@ -50,22 +50,22 @@ export default function PrototypeValidationPage() {
     },
     {
       id: 3,
-      title: 'Participant 3 • User Testing Trial',
-      profile: 'Participant 3 (Friend 3 • Target User Profile)',
-      task: 'Review customer GPay UTR transaction ID and update order status',
-      observation: 'Located order in admin table, checked 12-digit UTR ID card, set status to Processing.',
-      feedback: 'UTR verification card prevents bank account confusion. Status dropdown is very clear.',
-      issue: 'Requested payment method filter for pending UPI payments.',
-      improvement: 'Added payment mode filter badge (Online UPI vs COD) to Admin Orders table.'
+      title: 'Participant 3 • Prasanth (Nursery Owner)',
+      profile: 'Prasanth (Local Plant Nursery Owner & Business Evaluator)',
+      task: 'Evaluate website commercial capabilities, customer engagement features, and Ask AI care guidance (/chat)',
+      observation: 'Tested full site navigation and AI chat. Verified customer interaction options and depth of plant care responses.',
+      feedback: 'Overall website design and plant catalog presentation was good and well-structured.',
+      issue: 'Requested a customer review/feedback form on the website and richer, more detailed plant care information in Ask AI responses.',
+      improvement: 'Enriched Ask AI care tips knowledge base with detailed sunlight/watering advice and added customer review & enquiry feedback channels.'
     }
   ];
 
   const defaultSummary = {
-    useful: 'Instant leaf health diagnosis (<2s), GPay UTR reference validation, and clear catalog price filters.',
-    confusing: 'Initial technical botanical care terms before plain-language summaries were added.',
-    requested: 'Automated delivery tracking updates and watering reminder notifications.',
-    issues: 'Icon-only sunlight indicators on smaller mobile device screens.',
-    planned: 'Phase 3 planned additions: IoT soil moisture sensors, AR plant room placement, and automated SMS tracking.'
+    useful: 'Instant leaf health diagnosis (<2s), plain-language AI care guidance, GPay UTR verification, and clear catalog multi-filters.',
+    confusing: 'Occasional initial website loading speed latency before performance optimization.',
+    requested: 'Customer review feedback form for products/website and deeper plant care tips in Ask AI responses.',
+    issues: 'Website execution speed latency and initial Plant Doctor upload stability.',
+    planned: 'Phase 3 planned additions: Customer review feedback form, expanded AI care knowledge base, IoT soil moisture sensors, and automated tracking.'
   };
 
   const [testers, setTesters] = useState(defaultTesters);
@@ -74,7 +74,7 @@ export default function PrototypeValidationPage() {
   // Load from localStorage on mount
   useEffect(() => {
     try {
-      const CURRENT_VERSION = 'v4_selva_kumar';
+      const CURRENT_VERSION = 'v5_prasanth_complete';
       const savedVersion = localStorage.getItem('validation_version');
       if (savedVersion !== CURRENT_VERSION) {
         localStorage.removeItem('validation_status');
