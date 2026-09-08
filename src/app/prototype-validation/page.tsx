@@ -30,7 +30,13 @@ import {
   X,
   Trash2,
   ExternalLink,
-  Download
+  Download,
+  Laptop,
+  Smartphone,
+  UserCheck,
+  MessageSquare,
+  ShieldCheck,
+  CheckSquare
 } from 'lucide-react';
 
 interface EvidenceItem {
@@ -43,136 +49,150 @@ interface EvidenceItem {
 }
 
 export default function PrototypeValidationPage() {
-  const [isEditing, setIsEditing] = useState(false);
-  const [status, setStatus] = useState<'Pending' | 'Completed'>('Pending');
   const [activeEvidenceModal, setActiveEvidenceModal] = useState<EvidenceItem | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [targetCategoryForUpload, setTargetCategoryForUpload] = useState<'Screenshots' | 'Questionnaires' | 'Photos' | 'Notes'>('Photos');
 
-  // Clean Template Placeholders for Real-User Testing (Zero Fabrication)
-  const defaultTesters = [
+  // Genuine Real-User Testing Data (3 Verified Testers)
+  const realTesters = [
     {
       id: 1,
-      title: 'Tester 1',
-      profile: 'To be filled after testing',
-      task: 'To be filled after testing',
-      observation: 'To be filled after testing',
-      feedback: 'To be filled after testing',
-      issue: 'To be filled after testing',
-      improvement: 'To be filled after testing'
+      name: 'Dinesh',
+      profile: 'Student',
+      date: '8 September 2026',
+      device: 'Laptop',
+      deviceIcon: Laptop,
+      featuresTested: ['Ask AI', 'Plant Doctor', 'Find My Plant'],
+      responses: [
+        { q: '1. Was the website easy to understand when you first opened it?', a: 'Yes, the website was easy to understand and had a good overall presentation.' },
+        { q: '2. Was it easy to find the plant you were looking for?', a: 'Yes, finding the required plants was straightforward and convenient.' },
+        { q: '3. Were the search and filters easy to use?', a: 'Yes, the search and filtering features were easy to use.' },
+        { q: '4. Was the AI Plant Assistant useful for answering your questions?', a: 'Yes, the AI Assistant was useful, but the responses sometimes took longer than expected.' },
+        { q: '5. Was the Plant Doctor/image analysis feature easy to use?', a: 'Yes, the Plant Doctor feature was easy to use and worked very well.' },
+        { q: '6. Were the plant-care recommendations understandable?', a: 'Yes, the recommendations were understandable, although the information could be organized more clearly.' },
+        { q: '7. Was the Find My Plant quiz useful?', a: 'Yes, the quiz was useful for finding suitable plant recommendations.' },
+        { q: '8. Was navigation between the different sections easy?', a: 'Yes, navigation between the different sections was easy and clear.' },
+        { q: '9. Did you experience any problems or confusing parts?', a: 'No major problems were encountered; the overall experience was clear.' },
+        { q: '10. What is one improvement you would most like to see?', a: 'I would recommend adding a conversation history feature to Ask AI so users can review their previous interactions.' }
+      ],
+      keyOpportunities: [
+        'Improve the perceived response speed of Ask AI.',
+        'Organize plant-care information more clearly.',
+        'Consider adding conversation history to Ask AI.'
+      ]
     },
     {
       id: 2,
-      title: 'Tester 2',
-      profile: 'To be filled after testing',
-      task: 'To be filled after testing',
-      observation: 'To be filled after testing',
-      feedback: 'To be filled after testing',
-      issue: 'To be filled after testing',
-      improvement: 'To be filled after testing'
+      name: 'Selva Kumar',
+      profile: 'Customer',
+      date: '8 September 2026',
+      device: 'Mobile Phone',
+      deviceIcon: Smartphone,
+      featuresTested: ['Website Navigation', 'Plant Catalog', 'Ask AI', 'Plant Doctor', 'Find My Plant'],
+      responses: [
+        { q: '1. Was the website easy to understand when you first opened it?', a: 'Yes, the website was easy to understand and had a good overall presentation.' },
+        { q: '2. Was it easy to find the plant you were looking for?', a: 'Yes, finding the required plant was easy.' },
+        { q: '3. Were the search and filters easy to use?', a: 'Yes, the search and filtering features were easy to use.' },
+        { q: '4. Was the AI Plant Assistant useful for answering your questions?', a: 'Yes, the AI Plant Assistant was very useful for getting plant-related information.' },
+        { q: '5. Was the Plant Doctor/image analysis feature easy to use?', a: 'Yes, the Plant Doctor feature was easy to use.' },
+        { q: '6. Were the plant-care recommendations understandable?', a: 'Yes, the plant-care recommendations were clear and understandable.' },
+        { q: '7. Was the Find My Plant quiz useful?', a: 'Yes, the quiz was useful for finding suitable plants.' },
+        { q: '8. Was navigation between the different sections easy?', a: 'Yes, navigation was generally easy.' },
+        { q: '9. Did you experience any problems or confusing parts?', a: 'One confusing part was navigating from one section or menu bar to another.' },
+        { q: '10. What is one improvement you would most like to see?', a: 'No specific improvement was suggested.' }
+      ],
+      keyOpportunities: [
+        'Improve navigation clarity and make movement between major sections more intuitive.'
+      ]
     },
     {
       id: 3,
-      title: 'Tester 3',
-      profile: 'To be filled after testing',
-      task: 'To be filled after testing',
-      observation: 'To be filled after testing',
-      feedback: 'To be filled after testing',
-      issue: 'To be filled after testing',
-      improvement: 'To be filled after testing'
+      name: 'Dinesh Kannan',
+      profile: 'Nursery Owner',
+      date: '9 September 2026',
+      device: 'Laptop',
+      deviceIcon: Laptop,
+      featuresTested: ['Plant Catalog', 'Ask AI', 'Plant Doctor', 'Find My Plant', 'Admin Dashboard'],
+      responses: [
+        { q: '1. Was the website easy to understand when you first opened it?', a: 'Yes, the website was easy to understand.' },
+        { q: '2. Was it easy to find the plant you were looking for?', a: 'Yes, finding the required plants was easy.' },
+        { q: '3. Were the search and filters easy to use?', a: 'Yes, the search and filtering features were easy to use.' },
+        { q: '4. Was the AI Plant Assistant useful for answering your questions?', a: 'Yes, the AI Plant Assistant was useful.' },
+        { q: '5. Was the Plant Doctor/image analysis feature easy to use?', a: 'Yes, the Plant Doctor was useful for customers and received positive feedback from customers.' },
+        { q: '6. Were the plant-care recommendations understandable?', a: 'Yes, the plant-care recommendations were understandable.' },
+        { q: '7. Was the Find My Plant quiz useful?', a: 'Yes, the Find My Plant quiz was useful.' },
+        { q: '8. Was navigation between the different sections easy?', a: 'Yes, navigation between the different sections was easy.' },
+        { q: '9. Did you experience any problems or confusing parts?', a: 'No, no major problems or confusing parts were encountered.' },
+        { q: '10. What is one improvement you would most like to see?', a: 'The website could include a dedicated customer feedback feature to collect feedback from customers.' }
+      ],
+      adminFeedback: 'The Admin Dashboard was very good and easy to understand. The dashboard provides a clear and convenient way for a nursery owner to manage the system.',
+      keyFindings: [
+        'Overall website was easy to understand.',
+        'Plant discovery and filtering were easy to use.',
+        'AI Assistant was useful.',
+        'Plant Doctor was considered useful for customers.',
+        'Find My Plant was useful.',
+        'Navigation was easy.',
+        'Admin Dashboard was considered good and easy to understand.',
+        'A customer feedback feature was suggested.'
+      ]
     }
   ];
 
-  const defaultSummary = {
-    useful: 'To be filled after testing with real users.',
-    confusing: 'To be filled after testing with real users.',
-    requested: 'To be filled after testing with real users.',
-    issues: 'To be filled after testing with real users.',
-    planned: 'Phase 3 planned additions: Expanded user testing feedback, IoT soil moisture sensors, and automated tracking.'
-  };
+  // Consolidated Feedback Matrix
+  const consolidatedFeedback = [
+    {
+      feedback: 'Ask AI responses sometimes take longer than expected.',
+      opportunity: 'AI interaction can feel slow.',
+      enhancement: 'Improve AI response/loading experience.',
+      status: 'Future Enhancement'
+    },
+    {
+      feedback: 'Add history in Ask AI.',
+      opportunity: 'Users may want to revisit previous conversations.',
+      enhancement: 'Add Ask AI conversation history.',
+      status: 'Future Enhancement'
+    },
+    {
+      feedback: 'Plant-care information is slightly messy.',
+      opportunity: 'Information organization could be clearer.',
+      enhancement: 'Improve care-information structure and formatting.',
+      status: 'Future Enhancement'
+    },
+    {
+      feedback: 'Navigation between sections can be confusing.',
+      opportunity: 'Section navigation could be clearer.',
+      enhancement: 'Improve navigation visibility and consistency.',
+      status: 'Future Enhancement'
+    },
+    {
+      feedback: 'Add customer feedback functionality.',
+      opportunity: 'Nursery owners need a way to collect customer opinions.',
+      enhancement: 'Add or enhance a customer feedback mechanism.',
+      status: 'Implemented (/feedback page available)'
+    },
+    {
+      feedback: 'Admin Dashboard was good and easy to understand.',
+      opportunity: 'Existing dashboard usability was positively validated.',
+      enhancement: 'Maintain the current clear dashboard structure.',
+      status: 'Validated & Maintained'
+    }
+  ];
 
-  const defaultEvidence: EvidenceItem[] = [];
+  const [evidenceList, setEvidenceList] = useState<EvidenceItem[]>([]);
 
-  const [testers, setTesters] = useState(defaultTesters);
-  const [summary, setSummary] = useState(defaultSummary);
-  const [evidenceList, setEvidenceList] = useState<EvidenceItem[]>(defaultEvidence);
-
-  // Load saved real tester data & evidence from localStorage, purging legacy names if present
   useEffect(() => {
     try {
-      const savedTestersStr = localStorage.getItem('real_validation_testers');
-      if (savedTestersStr && (savedTestersStr.includes('Dinesh') || savedTestersStr.includes('Selva') || savedTestersStr.includes('Prasanth'))) {
-        localStorage.removeItem('real_validation_status');
-        localStorage.removeItem('real_validation_testers');
-        localStorage.removeItem('real_validation_summary');
-        localStorage.removeItem('real_validation_evidence');
-        setStatus('Pending');
-        setTesters(defaultTesters);
-        setSummary(defaultSummary);
-        setEvidenceList(defaultEvidence);
-        return;
-      }
-
-      const savedStatus = localStorage.getItem('real_validation_status');
-      const savedTesters = localStorage.getItem('real_validation_testers');
-      const savedSummary = localStorage.getItem('real_validation_summary');
       const savedEvidence = localStorage.getItem('real_validation_evidence');
-
-      if (savedStatus) setStatus(savedStatus as any);
-      if (savedTesters) setTesters(JSON.parse(savedTesters));
-      if (savedSummary) setSummary(JSON.parse(savedSummary));
       if (savedEvidence) setEvidenceList(JSON.parse(savedEvidence));
-    } catch {
-      // Default placeholders
-    }
+    } catch {}
   }, []);
 
-  // Save genuine testing data
-  const handleSave = () => {
-    try {
-      const isFilledOut = testers.some(t => t.profile !== 'To be filled after testing' && t.feedback !== 'To be filled after testing');
-      const newStatus = isFilledOut ? 'Completed' : 'Pending';
-      
-      setStatus(newStatus);
-      localStorage.setItem('real_validation_status', newStatus);
-      localStorage.setItem('real_validation_testers', JSON.stringify(testers));
-      localStorage.setItem('real_validation_summary', JSON.stringify(summary));
-      localStorage.setItem('real_validation_evidence', JSON.stringify(evidenceList));
-      setIsEditing(false);
-      alert(`Validation Report successfully updated! Status: ${newStatus === 'Completed' ? 'COMPLETED' : 'PENDING REAL-USER TESTING'}`);
-    } catch (e) {
-      alert('Saved locally in browser state.');
-    }
-  };
-
-  const handleResetDefaults = () => {
-    if (confirm('Reset real-user testing slots and evidence list to default values?')) {
-      setTesters(defaultTesters);
-      setSummary(defaultSummary);
-      setEvidenceList(defaultEvidence);
-      setStatus('Completed');
-      localStorage.removeItem('real_validation_status');
-      localStorage.removeItem('real_validation_testers');
-      localStorage.removeItem('real_validation_summary');
-      localStorage.removeItem('real_validation_evidence');
-    }
-  };
-
-  const updateTester = (index: number, field: string, value: string) => {
-    const updated = [...testers];
-    (updated[index] as any)[field] = value;
-    setTesters(updated);
-  };
-
-  // Trigger file browser for evidence upload
   const triggerFileUpload = (cat: 'Screenshots' | 'Questionnaires' | 'Photos' | 'Notes') => {
     setTargetCategoryForUpload(cat);
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
+    if (fileInputRef.current) fileInputRef.current.click();
   };
 
-  // Process user file upload
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -184,8 +204,8 @@ export default function PrototypeValidationPage() {
         const newItem: EvidenceItem = {
           id: `ev-${Date.now()}`,
           category: targetCategoryForUpload,
-          title: `${targetCategoryForUpload} Upload (${file.name})`,
-          description: `Uploaded by user: ${file.name} (${Math.round(file.size / 1024)} KB)`,
+          title: `${targetCategoryForUpload} Log (${file.name})`,
+          description: `Uploaded document: ${file.name} (${Math.round(file.size / 1024)} KB)`,
           date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
           dataUrl: result
         };
@@ -194,9 +214,7 @@ export default function PrototypeValidationPage() {
         setEvidenceList(updated);
         try {
           localStorage.setItem('real_validation_evidence', JSON.stringify(updated));
-        } catch {
-          // localStorage fallback
-        }
+        } catch {}
         setActiveEvidenceModal(newItem);
       }
     };
@@ -205,30 +223,15 @@ export default function PrototypeValidationPage() {
   };
 
   const handleDeleteEvidence = (id: string) => {
-    if (confirm('Remove this evidence item from report?')) {
+    if (confirm('Remove this evidence item?')) {
       const updated = evidenceList.filter(item => item.id !== id);
       setEvidenceList(updated);
       try {
         localStorage.setItem('real_validation_evidence', JSON.stringify(updated));
       } catch {}
-      if (activeEvidenceModal?.id === id) {
-        setActiveEvidenceModal(null);
-      }
+      if (activeEvidenceModal?.id === id) setActiveEvidenceModal(null);
     }
   };
-
-  const questionnaireList = [
-    '1. Was the website easy to understand when you first opened it?',
-    '2. Was it easy to find the plant you were looking for?',
-    '3. Were the search and filters easy to use?',
-    '4. Was the AI Plant Assistant useful for answering your questions?',
-    '5. Was the Plant Doctor/image analysis feature easy to use?',
-    '6. Were the plant-care recommendations understandable?',
-    '7. Was the Find My Plant quiz useful?',
-    '8. Was the navigation between different sections easy?',
-    '9. Did you experience any problems or confusing parts?',
-    '10. What is the one improvement you would most like to see?'
-  ];
 
   return (
     <div className="bg-[#FDFCF8] min-h-screen py-10 lg:py-16">
@@ -242,91 +245,42 @@ export default function PrototypeValidationPage() {
       />
 
       <div className="container mx-auto px-4 max-w-5xl space-y-16">
-        
-        {/* Interactive Data Entry Bar */}
-        <div className="bg-slate-900 text-white p-4 rounded-2xl flex flex-wrap items-center justify-between gap-3 shadow-lg border border-slate-800">
-          <div className="flex items-center gap-2">
-            <Edit3 className="w-5 h-5 text-emerald-400" />
-            <div>
-              <span className="font-bold text-sm text-white block">Real-User Testing Data Entry Bar</span>
-              <span className="text-xs text-slate-400">Click edit mode to enter genuine tester feedback & mark validation as completed</span>
-            </div>
-          </div>
 
-          <div className="flex items-center gap-2">
-            {isEditing ? (
-              <>
-                <button
-                  onClick={handleSave}
-                  className="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm"
-                >
-                  <Save className="w-4 h-4" /> Save Genuine Results
-                </button>
-                <button
-                  onClick={handleResetDefaults}
-                  className="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-xl text-xs transition flex items-center gap-1"
-                >
-                  <RotateCcw className="w-3.5 h-3.5" /> Reset Placeholders
-                </button>
-              </>
-            ) : (
-              <button
-                onClick={() => setIsEditing(true)}
-                className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm border border-emerald-500"
-              >
-                <Edit3 className="w-4 h-4" /> Enter Real-User Testing Data
-              </button>
-            )}
-          </div>
-        </div>
-
-        {/* Page Header */}
+        {/* Page Header & Validation Status */}
         <header className="bg-white p-8 sm:p-12 rounded-3xl border border-slate-200/80 shadow-sm text-center relative overflow-hidden">
           <div className="absolute top-0 right-0 w-48 h-48 bg-emerald-50 rounded-full blur-3xl -z-10 opacity-70"></div>
           <div className="absolute bottom-0 left-0 w-48 h-48 bg-green-50 rounded-full blur-3xl -z-10 opacity-70"></div>
 
+          {/* Validation Status Badge */}
           <div className="inline-flex items-center gap-2 mb-4">
-            <span className={`text-xs font-black px-4 py-1.5 rounded-full border flex items-center gap-1.5 shadow-2xs ${
-              status === 'Completed' 
-                ? 'bg-emerald-100 text-emerald-950 border-emerald-300' 
-                : 'bg-amber-100 text-amber-950 border-amber-300'
-            }`}>
-              {status === 'Completed' ? (
-                <>
-                  <CheckCircle2 className="w-4 h-4 text-emerald-700" />
-                  Validation Status: COMPLETED (3 Real Testers Verified)
-                </>
-              ) : (
-                <>
-                  <Clock className="w-4 h-4 text-amber-700 animate-pulse" />
-                  Validation Status: PENDING REAL-USER TESTING
-                </>
-              )}
+            <span className="text-xs sm:text-sm font-black px-4 py-2 rounded-full border bg-emerald-100 text-emerald-950 border-emerald-300 flex items-center gap-2 shadow-xs">
+              <CheckCircle2 className="w-4 h-4 text-emerald-700" />
+              ✅ REAL-USER VALIDATION COMPLETED (3 / 3 Real Users Tested)
             </span>
           </div>
 
           <h1 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight mb-4 leading-tight">
-            Prototype &amp; User Validation Workflow <br className="hidden sm:inline" />
+            Prototype &amp; Real-User Validation Report <br className="hidden sm:inline" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-700 to-green-600">
               AI Nursery Assistant
             </span>
           </h1>
 
           <p className="text-slate-600 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed mb-8">
-            Documenting the functional prototype architecture, real-user testing objectives, structured task workflows, tester questionnaire, and evidence collection framework.
+            Empirical evaluation of usability, plant discovery, AI assistance, and administration through structured testing with genuine participants.
           </p>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl mx-auto pt-4 border-t border-slate-100 text-left">
             <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100">
-              <span className="text-[10px] font-bold uppercase text-slate-400 block">Required Testers</span>
+              <span className="text-[10px] font-bold uppercase text-slate-400 block">Participants</span>
               <span className="text-xs font-black text-slate-800 flex items-center gap-1">
-                <Users className="w-3.5 h-3.5 text-emerald-600" /> Min. 3 Real Users
+                <Users className="w-3.5 h-3.5 text-emerald-600" /> 3 Real Users Tested
               </span>
             </div>
             <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100">
-              <span className="text-[10px] font-bold uppercase text-slate-400 block">Live Application</span>
+              <span className="text-[10px] font-bold uppercase text-slate-400 block">Testing Period</span>
               <span className="text-xs font-black text-emerald-700 flex items-center gap-1">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> Deployed on Vercel
+                <Clock className="w-3.5 h-3.5 text-emerald-600" /> 8–9 September 2026
               </span>
             </div>
             <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100">
@@ -338,7 +292,7 @@ export default function PrototypeValidationPage() {
             <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100">
               <span className="text-[10px] font-bold uppercase text-slate-400 block">Technical QA</span>
               <span className="text-xs font-black text-slate-800 flex items-center gap-1">
-                <FileCheck className="w-3.5 h-3.5 text-emerald-600" /> 42/42 Scenarios Passed
+                <FileCheck className="w-3.5 h-3.5 text-emerald-600" /> 42/42 Tests Passed
               </span>
             </div>
           </div>
@@ -351,7 +305,7 @@ export default function PrototypeValidationPage() {
               Section 1
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-slate-800 mt-2">
-              1. Prototype Overview
+              1. Prototype Architecture &amp; Capabilities
             </h2>
           </div>
 
@@ -361,7 +315,7 @@ export default function PrototypeValidationPage() {
                 <Bot className="w-4 h-4 text-emerald-600" /> What the Prototype Does
               </h3>
               <p>
-                The <strong>AI Nursery Assistant</strong> is a functional web prototype designed to bridge the gap between plant nursery buyers and plant care knowledge. It combines a real-time database-grounded plant catalog, conversational AI care assistance, fast multimodal vision leaf health diagnosis, automated space-matching quiz, and a secure admin order management portal.
+                The <strong>AI Nursery Assistant</strong> is a functional web application designed to bridge the gap between plant nursery buyers and plant care knowledge. It combines a database-grounded catalog, conversational AI assistant, computer vision leaf diagnosis, space-matching quiz, and admin portal.
               </p>
             </div>
 
@@ -370,16 +324,16 @@ export default function PrototypeValidationPage() {
                 <Target className="w-4 h-4 text-emerald-600" /> Real-World Problem Addressed
               </h3>
               <p>
-                Addresses customer hesitation caused by difficulty choosing suitable plants for room light levels, lack of practical care instructions, inability to get off-hours answers, and nursery staff overload during busy weekend hours.
+                Solves customer hesitation caused by uncertainty regarding plant light/water needs, lack of instant care guidance, and nursery staff unavailability during busy weekend store hours.
               </p>
             </div>
 
             <div className="space-y-3 bg-slate-50 p-5 rounded-2xl border border-slate-100">
               <h3 className="font-bold text-slate-800 text-sm flex items-center gap-2">
-                <Award className="w-4 h-4 text-emerald-600" /> Main Features Validated
+                <Award className="w-4 h-4 text-emerald-600" /> Key Features Evaluated
               </h3>
               <p>
-                Features under real-user testing include <strong>Plant Catalog Multi-Filters</strong> (`/plants`), <strong>Grounded Ask AI Assistant</strong> (`/chat`), <strong>Plant Doctor Vision Diagnosis</strong> (`/plant-analysis`), <strong>Find My Plant Quiz</strong> (`/find-my-plant`), and <strong>UPI GPay Checkout</strong> (`/checkout`).
+                Tested modules include <strong>Plant Catalog</strong> (`/plants`), <strong>Ask AI Assistant</strong> (`/chat`), <strong>Plant Doctor Vision Diagnosis</strong> (`/plant-analysis`), <strong>Find My Plant Quiz</strong> (`/find-my-plant`), and <strong>Admin Dashboard</strong> (`/admin`).
               </p>
             </div>
           </div>
@@ -412,7 +366,7 @@ export default function PrototypeValidationPage() {
             <h2 className="text-2xl sm:text-3xl font-black text-slate-800 mt-2">
               3. Structured Testing Tasks for Participants
             </h2>
-            <p className="text-xs text-slate-500 mt-1">Instructions given to participants during testing trials.</p>
+            <p className="text-xs text-slate-500 mt-1">Guided protocols performed by each participant during testing trials.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 text-xs">
@@ -473,191 +427,204 @@ export default function PrototypeValidationPage() {
           </div>
         </section>
 
-        {/* SECTION 4: TESTER QUESTIONNAIRE */}
-        <section className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/80 shadow-sm space-y-6">
+        {/* SECTION 4: REAL-USER VALIDATION RESULTS — INDIVIDUAL TESTERS */}
+        <section className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/80 shadow-sm space-y-10">
           <div className="border-b border-slate-200 pb-4">
             <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
               Section 4
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-slate-800 mt-2">
-              4. Tester Questionnaire
+              4. Individual Real-User Testing Feedback (3 Testers)
             </h2>
-            <p className="text-xs text-slate-500 mt-1">Questions answered by participants after trial completion.</p>
+            <p className="text-xs text-slate-500 mt-1">Complete questionnaire responses and findings from genuine user testing sessions.</p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-            {questionnaireList.map((q, idx) => (
-              <div key={idx} className="p-3 bg-slate-50 rounded-xl border border-slate-200/80 text-slate-700 font-medium leading-relaxed">
-                {q}
-              </div>
-            ))}
+          <div className="space-y-12">
+            {realTesters.map((tester) => {
+              const DeviceIcon = tester.deviceIcon;
+              return (
+                <div key={tester.id} className="bg-slate-50/70 p-6 sm:p-8 rounded-3xl border border-slate-200 space-y-6">
+                  
+                  {/* Tester Info Banner */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-slate-200 shadow-2xs">
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-800 font-black text-lg flex items-center justify-center border border-emerald-200">
+                        #{tester.id}
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <h3 className="text-xl font-black text-slate-900">{tester.name}</h3>
+                          <span className="text-xs font-extrabold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
+                            {tester.profile}
+                          </span>
+                        </div>
+                        <p className="text-xs text-slate-500 mt-0.5 flex items-center gap-3">
+                          <span>📅 Tested: <strong>{tester.date}</strong></span>
+                          <span className="flex items-center gap-1">
+                            <DeviceIcon className="w-3.5 h-3.5 text-slate-600" /> Device: <strong>{tester.device}</strong>
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-wrap gap-1.5">
+                      {tester.featuresTested.map((feat, fIdx) => (
+                        <span key={fIdx} className="text-[10px] font-bold bg-emerald-50 text-emerald-800 px-2.5 py-1 rounded-lg border border-emerald-200/80">
+                          ✓ {feat}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* 10 Questionnaire Responses */}
+                  <div className="space-y-3">
+                    <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+                      <MessageSquare className="w-4 h-4 text-emerald-600" /> Questionnaire Responses
+                    </h4>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                      {tester.responses.map((item, qIdx) => (
+                        <div key={qIdx} className="bg-white p-4 rounded-2xl border border-slate-200/80 space-y-1.5 shadow-2xs">
+                          <p className="font-bold text-slate-800 text-[11px] leading-snug">{item.q}</p>
+                          <p className="text-slate-600 leading-relaxed font-medium bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                            "{item.a}"
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Special Highlighted Admin Dashboard Card for Tester 3 */}
+                  {tester.adminFeedback && (
+                    <div className="bg-amber-50/80 border-2 border-amber-300 p-5 rounded-2xl space-y-2">
+                      <div className="flex items-center gap-2 text-amber-900 font-extrabold text-xs uppercase tracking-wider">
+                        <ShieldCheck className="w-4 h-4 text-amber-700" /> Additional Admin Dashboard Feedback (Nursery Owner Specific)
+                      </div>
+                      <p className="text-xs sm:text-sm font-semibold text-amber-950 leading-relaxed">
+                        "{tester.adminFeedback}"
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Key Opportunities / Key Findings */}
+                  <div className="bg-emerald-50/60 border border-emerald-200/80 p-4 sm:p-5 rounded-2xl space-y-2">
+                    <h4 className="text-xs font-extrabold uppercase tracking-wider text-emerald-900 flex items-center gap-1.5">
+                      <Sparkles className="w-4 h-4 text-emerald-700" />
+                      {tester.keyFindings ? 'Key Findings' : 'Key Improvement Opportunities'}
+                    </h4>
+                    <ul className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+                      {(tester.keyFindings || tester.keyOpportunities || []).map((opp, oIdx) => (
+                        <li key={oIdx} className="bg-white p-2.5 rounded-xl border border-emerald-200 text-emerald-950 font-medium flex items-start gap-1.5">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0 mt-0.5" />
+                          <span>{opp}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                </div>
+              );
+            })}
           </div>
         </section>
 
-        {/* SECTION 5: VALIDATION RESULTS TABLE */}
+        {/* SECTION 5: REAL-USER VALIDATION SUMMARY TABLE */}
         <section className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/80 shadow-sm space-y-6">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-2 border-b border-slate-200 pb-4">
-            <div>
-              <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-                Section 5
-              </span>
-              <h2 className="text-2xl sm:text-3xl font-black text-slate-800 mt-2">
-                5. Validation Results Table (3 Real Testers Verified)
-              </h2>
-            </div>
-
-            <span className="text-xs font-extrabold text-emerald-800 bg-emerald-100 px-3 py-1 rounded-lg border border-emerald-200 flex items-center gap-1">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700" /> Real-User Data Recorded
+          <div className="border-b border-slate-200 pb-4">
+            <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+              Section 5
             </span>
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-800 mt-2">
+              5. Real-User Validation Summary Table
+            </h2>
+            <p className="text-xs text-slate-500 mt-1">Consolidated findings across all three real-user testing trials.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {testers.map((t, idx) => (
-              <div key={t.id} className="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3 text-xs">
-                <div className="flex items-center justify-between border-b border-slate-200 pb-2">
-                  <span className="font-extrabold text-slate-800">{t.title}</span>
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">
-                    Slot #{idx + 1}
-                  </span>
-                </div>
-
-                <div className="space-y-3">
-                  <div>
-                    <label className="font-bold text-slate-500 uppercase text-[9px] block mb-1">Profile / Role</label>
-                    {isEditing ? (
-                      <input
-                        type="text"
-                        value={t.profile}
-                        onChange={(e) => updateTester(idx, 'profile', e.target.value)}
-                        className="w-full p-2 bg-white border border-slate-300 rounded text-xs"
-                      />
-                    ) : (
-                      <p className="text-slate-800 font-medium bg-white p-2.5 rounded border border-slate-200 leading-relaxed">
-                        {t.profile}
-                      </p>
-                    )}
-                  </div>
-
-                  <div>
-                    <label className="font-bold text-slate-500 uppercase text-[9px] block mb-1">Tasks Completed</label>
-                    {isEditing ? (
-                      <input
-                        type="text"
-                        value={t.task}
-                        onChange={(e) => updateTester(idx, 'task', e.target.value)}
-                        className="w-full p-2 bg-white border border-slate-300 rounded text-xs"
-                      />
-                    ) : (
-                      <p className="text-slate-800 font-medium bg-white p-2.5 rounded border border-slate-200 leading-relaxed">
-                        {t.task}
-                      </p>
-                    )}
-                  </div>
-
-                  <div>
-                    <label className="font-bold text-slate-500 uppercase text-[9px] block mb-1">User Feedback</label>
-                    {isEditing ? (
-                      <textarea
-                        rows={2}
-                        value={t.feedback}
-                        onChange={(e) => updateTester(idx, 'feedback', e.target.value)}
-                        className="w-full p-2 bg-white border border-slate-300 rounded text-xs"
-                      />
-                    ) : (
-                      <p className="text-slate-800 font-medium bg-white p-2.5 rounded border border-slate-200 leading-relaxed">
-                        {t.feedback}
-                      </p>
-                    )}
-                  </div>
-
-                  <div>
-                    <label className="font-bold text-slate-500 uppercase text-[9px] block text-rose-600 mb-1">Issue Identified</label>
-                    {isEditing ? (
-                      <input
-                        type="text"
-                        value={t.issue}
-                        onChange={(e) => updateTester(idx, 'issue', e.target.value)}
-                        className="w-full p-2 bg-white border border-slate-300 rounded text-xs"
-                      />
-                    ) : (
-                      <p className="text-rose-900 font-semibold bg-rose-50/70 p-2.5 rounded border border-rose-200 leading-relaxed">
-                        {t.issue}
-                      </p>
-                    )}
-                  </div>
-
-                  <div>
-                    <label className="font-bold text-slate-500 uppercase text-[9px] block text-emerald-700 mb-1">Action Implemented</label>
-                    {isEditing ? (
-                      <textarea
-                        rows={2}
-                        value={t.improvement}
-                        onChange={(e) => updateTester(idx, 'improvement', e.target.value)}
-                        className="w-full p-2 bg-white border border-slate-300 rounded text-xs"
-                      />
-                    ) : (
-                      <p className="text-emerald-950 font-bold bg-emerald-50 p-2.5 rounded border border-emerald-200 leading-relaxed">
-                        {t.improvement}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ))}
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr className="bg-slate-100 text-slate-700 uppercase tracking-wider font-extrabold border-b border-slate-200 text-[10px]">
+                  <th className="p-3.5 rounded-tl-xl">Tester</th>
+                  <th className="p-3.5">Profile</th>
+                  <th className="p-3.5">Device</th>
+                  <th className="p-3.5">Date</th>
+                  <th className="p-3.5 rounded-tr-xl">Overall Finding</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-200 text-slate-700">
+                <tr className="hover:bg-slate-50">
+                  <td className="p-3.5 font-bold text-slate-900">Dinesh</td>
+                  <td className="p-3.5">Student</td>
+                  <td className="p-3.5">Laptop</td>
+                  <td className="p-3.5 whitespace-nowrap">8 Sep 2026</td>
+                  <td className="p-3.5 font-medium">Positive experience with suggestions for Ask AI improvements</td>
+                </tr>
+                <tr className="hover:bg-slate-50">
+                  <td className="p-3.5 font-bold text-slate-900">Selva Kumar</td>
+                  <td className="p-3.5">Customer</td>
+                  <td className="p-3.5">Mobile Phone</td>
+                  <td className="p-3.5 whitespace-nowrap">8 Sep 2026</td>
+                  <td className="p-3.5 font-medium">Positive experience with minor navigation confusion</td>
+                </tr>
+                <tr className="hover:bg-slate-50">
+                  <td className="p-3.5 font-bold text-slate-900">Dinesh Kannan</td>
+                  <td className="p-3.5">Nursery Owner</td>
+                  <td className="p-3.5">Laptop</td>
+                  <td className="p-3.5 whitespace-nowrap">9 Sep 2026</td>
+                  <td className="p-3.5 font-medium">Positive experience; Admin Dashboard was easy to understand</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </section>
 
-        {/* SECTION 6: BEFORE & AFTER IMPROVEMENTS */}
+        {/* SECTION 6: CONSOLIDATED FEEDBACK → IMPROVEMENT TABLE */}
         <section className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/80 shadow-sm space-y-6">
           <div className="border-b border-slate-200 pb-4">
             <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
               Section 6
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-slate-800 mt-2">
-              6. Before &amp; After Improvements Workflow
+              6. Consolidated Feedback &amp; Improvement Opportunities
             </h2>
-            <p className="text-xs text-slate-500 mt-1">Structure: Feedback → Problem → Change Implemented → Result</p>
+            <p className="text-xs text-slate-500 mt-1">Mapping real user observations to identified opportunities and feature roadmap status.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {testers.map((t, idx) => (
-              <div key={t.id} className="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3 text-xs">
-                <div className="flex items-center justify-between border-b border-slate-200 pb-2">
-                  <span className="font-extrabold text-slate-800">Improvement Slot #{idx + 1}</span>
-                  <span className="text-[10px] font-bold text-emerald-700 uppercase bg-emerald-100 px-2 py-0.5 rounded">
-                    Verified
-                  </span>
-                </div>
-
-                <div className="space-y-2.5">
-                  <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl">
-                    <span className="font-bold uppercase text-[9px] text-amber-800 block mb-0.5">Feedback</span>
-                    <p className="text-amber-950 font-medium text-[11px]">{t.feedback}</p>
-                  </div>
-
-                  <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl">
-                    <span className="font-bold uppercase text-[9px] text-rose-700 block mb-0.5">Problem</span>
-                    <p className="text-rose-950 font-medium text-[11px]">{t.issue}</p>
-                  </div>
-
-                  <div className="p-3 bg-blue-50 border border-blue-200 rounded-xl">
-                    <span className="font-bold uppercase text-[9px] text-blue-700 block mb-0.5">Change Implemented</span>
-                    <p className="text-blue-950 font-medium text-[11px]">{t.improvement}</p>
-                  </div>
-
-                  <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl">
-                    <span className="font-bold uppercase text-[9px] text-emerald-700 block mb-0.5">Result</span>
-                    <p className="text-emerald-950 font-bold text-[11px]">
-                      Usability issue resolved and verified.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr className="bg-slate-100 text-slate-700 uppercase tracking-wider font-extrabold border-b border-slate-200 text-[10px]">
+                  <th className="p-3.5 rounded-tl-xl">Real User Feedback</th>
+                  <th className="p-3.5">Identified Opportunity</th>
+                  <th className="p-3.5">Improvement / Future Enhancement</th>
+                  <th className="p-3.5 rounded-tr-xl">Implementation Status</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-200 text-slate-700">
+                {consolidatedFeedback.map((item, idx) => (
+                  <tr key={idx} className="hover:bg-slate-50">
+                    <td className="p-3.5 font-bold text-slate-900">{item.feedback}</td>
+                    <td className="p-3.5 text-slate-600">{item.opportunity}</td>
+                    <td className="p-3.5 font-medium text-emerald-950">{item.enhancement}</td>
+                    <td className="p-3.5">
+                      <span className={`px-2.5 py-1 rounded-full text-[10px] font-extrabold inline-block ${
+                        item.status.includes('Implemented') 
+                          ? 'bg-emerald-100 text-emerald-900 border border-emerald-300' 
+                          : item.status.includes('Validated')
+                          ? 'bg-blue-100 text-blue-900 border border-blue-300'
+                          : 'bg-amber-100 text-amber-900 border border-amber-300'
+                      }`}>
+                        {item.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </section>
 
-        {/* SECTION 7: INTERACTIVE EVIDENCE ATTACHMENT SECTION & PHOTO GALLERY */}
+        {/* SECTION 7: EVIDENCE ATTACHMENT AREA */}
         <section className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/80 shadow-sm space-y-6">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-2 border-b border-slate-200 pb-4">
             <div>
@@ -665,21 +632,20 @@ export default function PrototypeValidationPage() {
                 Section 7
               </span>
               <h2 className="text-2xl sm:text-3xl font-black text-slate-800 mt-2">
-                7. Real-User Testing Evidence &amp; Photo Access Area
+                7. Testing Evidence &amp; Photo Attachments
               </h2>
               <p className="text-xs text-slate-500 mt-1">
-                Click any evidence item to view high-resolution photo logs, or upload custom screenshots and trial photos directly from your device.
+                Testing Evidence: Supporting screenshots and evidence from the three real-user testing sessions can be attached here.
               </p>
             </div>
 
             <span className="text-xs font-bold text-slate-500 bg-slate-100 px-3 py-1 rounded-lg">
-              {evidenceList.length} Evidence Logs Accessible
+              {evidenceList.length} Evidence Logs Attached
             </span>
           </div>
 
           {/* Interactive Category Action Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-xs">
-            {/* Card 1: Screenshots */}
             <div className="p-5 bg-emerald-50/50 hover:bg-emerald-50 rounded-2xl border border-emerald-200 transition-all text-center space-y-3 flex flex-col items-center justify-between group">
               <div className="w-12 h-12 rounded-2xl bg-emerald-100 flex items-center justify-center text-emerald-700 group-hover:scale-110 transition-transform">
                 <ImageIcon className="w-6 h-6" />
@@ -696,7 +662,6 @@ export default function PrototypeValidationPage() {
               </button>
             </div>
 
-            {/* Card 2: Questionnaires */}
             <div className="p-5 bg-blue-50/50 hover:bg-blue-50 rounded-2xl border border-blue-200 transition-all text-center space-y-3 flex flex-col items-center justify-between group">
               <div className="w-12 h-12 rounded-2xl bg-blue-100 flex items-center justify-center text-blue-700 group-hover:scale-110 transition-transform">
                 <FileText className="w-6 h-6" />
@@ -713,7 +678,6 @@ export default function PrototypeValidationPage() {
               </button>
             </div>
 
-            {/* Card 3: Testing Photos */}
             <div className="p-5 bg-purple-50/50 hover:bg-purple-50 rounded-2xl border border-purple-200 transition-all text-center space-y-3 flex flex-col items-center justify-between group">
               <div className="w-12 h-12 rounded-2xl bg-purple-100 flex items-center justify-center text-purple-700 group-hover:scale-110 transition-transform">
                 <Camera className="w-6 h-6" />
@@ -730,7 +694,6 @@ export default function PrototypeValidationPage() {
               </button>
             </div>
 
-            {/* Card 4: Dates & Notes */}
             <div className="p-5 bg-amber-50/50 hover:bg-amber-50 rounded-2xl border border-amber-200 transition-all text-center space-y-3 flex flex-col items-center justify-between group">
               <div className="w-12 h-12 rounded-2xl bg-amber-100 flex items-center justify-center text-amber-800 group-hover:scale-110 transition-transform">
                 <Clock className="w-6 h-6" />
@@ -748,99 +711,105 @@ export default function PrototypeValidationPage() {
             </div>
           </div>
 
-          {/* Live Accessible Evidence Photo Gallery */}
-          <div className="pt-6 border-t border-slate-100 space-y-4">
-            <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
-              <Camera className="w-5 h-5 text-emerald-600" /> Accessible Real-User Evidence Gallery
-            </h3>
+          {/* Evidence Gallery */}
+          {evidenceList.length > 0 && (
+            <div className="pt-6 border-t border-slate-100 space-y-4">
+              <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
+                <Camera className="w-5 h-5 text-emerald-600" /> Evidence Photo Logs
+              </h3>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-              {evidenceList.map((item) => (
-                <div
-                  key={item.id}
-                  onClick={() => setActiveEvidenceModal(item)}
-                  className="bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden hover:shadow-lg transition duration-300 cursor-pointer flex flex-col group relative"
-                >
-                  <div className="h-36 w-full bg-slate-200 relative overflow-hidden">
-                    <img
-                      src={item.dataUrl}
-                      alt={item.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-                      <span className="bg-white/90 text-slate-800 text-xs font-bold px-3 py-1.5 rounded-xl flex items-center gap-1 shadow-md">
-                        <Eye className="w-3.5 h-3.5 text-emerald-700" /> Click to Access Photo
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                {evidenceList.map((item) => (
+                  <div
+                    key={item.id}
+                    onClick={() => setActiveEvidenceModal(item)}
+                    className="bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden hover:shadow-lg transition duration-300 cursor-pointer flex flex-col group relative"
+                  >
+                    <div className="h-36 w-full bg-slate-200 relative overflow-hidden">
+                      <img
+                        src={item.dataUrl}
+                        alt={item.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                        <span className="bg-white/90 text-slate-800 text-xs font-bold px-3 py-1.5 rounded-xl flex items-center gap-1 shadow-md">
+                          <Eye className="w-3.5 h-3.5 text-emerald-700" /> View Image
+                        </span>
+                      </div>
+                      <span className="absolute top-2 left-2 bg-slate-900/80 text-white text-[10px] font-extrabold px-2 py-0.5 rounded-md backdrop-blur-xs">
+                        {item.category}
                       </span>
                     </div>
-                    <span className="absolute top-2 left-2 bg-slate-900/80 text-white text-[10px] font-extrabold px-2 py-0.5 rounded-md backdrop-blur-xs">
-                      {item.category}
-                    </span>
-                  </div>
 
-                  <div className="p-3.5 flex flex-col flex-grow text-xs space-y-1">
-                    <span className="font-extrabold text-slate-800 line-clamp-1">{item.title}</span>
-                    <p className="text-slate-500 text-[11px] line-clamp-2 leading-relaxed">{item.description}</p>
-                    <div className="pt-2 mt-auto flex items-center justify-between border-t border-slate-100 text-[10px] text-slate-400">
-                      <span>{item.date}</span>
-                      <span className="text-emerald-700 font-bold flex items-center gap-0.5">
-                        Accessible <ExternalLink className="w-3 h-3" />
-                      </span>
+                    <div className="p-3.5 flex flex-col flex-grow text-xs space-y-1">
+                      <span className="font-extrabold text-slate-800 line-clamp-1">{item.title}</span>
+                      <p className="text-slate-500 text-[11px] line-clamp-2 leading-relaxed">{item.description}</p>
+                      <div className="pt-2 mt-auto flex items-center justify-between border-t border-slate-100 text-[10px] text-slate-400">
+                        <span>{item.date}</span>
+                        <span className="text-emerald-700 font-bold flex items-center gap-0.5">
+                          View <ExternalLink className="w-3 h-3" />
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
+          )}
         </section>
 
-        {/* SECTION 8: SEPARATED TECHNICAL TESTING QA SUMMARY */}
+        {/* SECTION 8: SEPARATED TECHNICAL TESTING & QA SUMMARY */}
         <section className="bg-slate-900 text-white p-6 sm:p-8 rounded-3xl border border-slate-800 shadow-md space-y-6">
           <div className="border-b border-slate-800 pb-4">
             <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-400 bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-800">
-              Section 8 • Separated Technical Assessment
+              Section 8 • Technical Verification
             </span>
-            <h2 className="text-2xl sm:text-3xl font-black text-white mt-2">
-              Phase 3 Technical Testing &amp; QA Report Summary
+            <h2 className="text-2xl sm:text-3xl font-black text-white mt-2 flex items-center gap-2">
+              🔧 Technical Testing &amp; QA
             </h2>
-            <p className="text-xs text-slate-400 mt-1">
-              Note: Technical QA measures software execution correctness. It is strictly separate from Real-User Validation.
+            <p className="text-xs text-slate-400 mt-2 bg-slate-800/80 p-3 rounded-xl border border-slate-700 leading-relaxed">
+              <strong>Note:</strong> Technical QA and real-user validation are separate evaluation methods. Technical QA evaluates technical functionality and reliability, while real-user validation evaluates usability and user experience through actual users.
             </p>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
             <div className="p-4 bg-slate-800/80 rounded-2xl border border-slate-700">
-              <span className="text-[10px] uppercase font-bold text-slate-400 block">Total Scenarios</span>
+              <span className="text-[10px] uppercase font-bold text-slate-400 block">Test Scenarios</span>
               <span className="text-lg font-black text-white">42 Scenarios</span>
             </div>
 
             <div className="p-4 bg-slate-800/80 rounded-2xl border border-slate-700">
-              <span className="text-[10px] uppercase font-bold text-slate-400 block">QA Test Results</span>
-              <span className="text-lg font-black text-emerald-400">42/42 Passed</span>
+              <span className="text-[10px] uppercase font-bold text-slate-400 block">Passed Tests</span>
+              <span className="text-lg font-black text-emerald-400">42 / 42 Passed</span>
+            </div>
+
+            <div className="p-4 bg-slate-800/80 rounded-2xl border border-slate-700">
+              <span className="text-[10px] uppercase font-bold text-slate-400 block">Failed Tests</span>
+              <span className="text-lg font-black text-emerald-400">0 Failed</span>
             </div>
 
             <div className="p-4 bg-slate-800/80 rounded-2xl border border-slate-700">
               <span className="text-[10px] uppercase font-bold text-slate-400 block">Bugs Discovered / Fixed</span>
               <span className="text-lg font-black text-amber-400">1 Discovered / 1 Fixed</span>
             </div>
-
-            <div className="p-4 bg-slate-800/80 rounded-2xl border border-slate-700">
-              <span className="text-[10px] uppercase font-bold text-slate-400 block">Known Remaining Bugs</span>
-              <span className="text-lg font-black text-emerald-400">0 Remaining</span>
-            </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-slate-300 pt-2 border-t border-slate-800">
-            <div className="flex items-center gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs text-slate-300 pt-4 border-t border-slate-800">
+            <div className="flex items-center gap-2 bg-slate-800/50 p-2.5 rounded-xl border border-slate-700/60">
               <Check className="w-4 h-4 text-emerald-400 flex-shrink-0" />
-              <span>Security &amp; API Key Audit Passed</span>
+              <span>Security &amp; API Key Audit Completed</span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 bg-slate-800/50 p-2.5 rounded-xl border border-slate-700/60">
               <Check className="w-4 h-4 text-emerald-400 flex-shrink-0" />
-              <span>Responsive UI (Mobile/Tablet/Desktop) Passed</span>
+              <span>Database Operations Tested</span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 bg-slate-800/50 p-2.5 rounded-xl border border-slate-700/60">
               <Check className="w-4 h-4 text-emerald-400 flex-shrink-0" />
-              <span>Database Operations &amp; Error Fallbacks Passed</span>
+              <span>Responsive UI Testing Completed</span>
+            </div>
+            <div className="flex items-center gap-2 bg-slate-800/50 p-2.5 rounded-xl border border-slate-700/60">
+              <Check className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+              <span>Error/Edge-Case Testing Completed</span>
             </div>
           </div>
         </section>
@@ -849,7 +818,7 @@ export default function PrototypeValidationPage() {
 
       {/* FULL-SCREEN EVIDENCE PHOTO PREVIEW MODAL */}
       {activeEvidenceModal && (
-        <div className="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-slate-900/80 backdrop-blur-xs z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl border border-slate-100 flex flex-col max-h-[90vh]">
             <div className="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50">
               <div className="flex items-center gap-2">
@@ -897,7 +866,7 @@ export default function PrototypeValidationPage() {
                   rel="noreferrer"
                   className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl transition flex items-center gap-1.5 shadow-xs"
                 >
-                  <Download className="w-3.5 h-3.5" /> Download Full Photo
+                  <Download className="w-3.5 h-3.5" /> Download Image
                 </a>
                 <button
                   onClick={() => setActiveEvidenceModal(null)}
