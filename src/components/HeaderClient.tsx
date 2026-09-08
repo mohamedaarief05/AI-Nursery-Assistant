@@ -46,11 +46,8 @@ export default function HeaderClient({ userEmail }: HeaderClientProps) {
             <Camera className="w-4 h-4 text-emerald-600" />
             <span>Plant Doctor</span>
           </Link>
-          <Link href="/design-thinking" className="text-slate-600 hover:text-green-700 transition">
-            Design Portfolio
-          </Link>
-          <Link href="/prototype-validation" className="text-slate-600 hover:text-green-700 transition">
-            Validation Report
+          <Link href="/project-dashboard" className="text-emerald-700 hover:text-emerald-800 font-extrabold transition flex items-center gap-1 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200">
+            <span>Project Dashboard</span>
           </Link>
           <Link href="/about" className="text-slate-600 hover:text-green-700 transition">
             About
@@ -169,18 +166,11 @@ export default function HeaderClient({ userEmail }: HeaderClientProps) {
               <span>Plant Doctor (Photo Analysis)</span>
             </Link>
             <Link
-              href="/design-thinking"
+              href="/project-dashboard"
               onClick={() => setMobileMenuOpen(false)}
-              className="px-3 py-2 rounded-lg font-medium text-slate-700 hover:bg-green-50 hover:text-green-700 transition"
+              className="px-3 py-2 rounded-lg font-extrabold text-emerald-800 bg-emerald-50 border border-emerald-200 transition"
             >
-              Design Thinking Portfolio
-            </Link>
-            <Link
-              href="/prototype-validation"
-              onClick={() => setMobileMenuOpen(false)}
-              className="px-3 py-2 rounded-lg font-medium text-slate-700 hover:bg-green-50 hover:text-green-700 transition"
-            >
-              Prototype & Validation Report
+              📊 Project Review Dashboard
             </Link>
             <Link
               href="/cart"
