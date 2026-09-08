@@ -29,8 +29,9 @@ export default async function PlantsPage({
   // Build query
   let query = supabase.from('plants').select('*, categories(name)');
 
-  if (search) {
-    query = query.or(`name.ilike.%${search}%,description.ilike.%${search}%`);
+  const sanitizedSearch = search.replace(/[,()]/g, '').trim();
+  if (sanitizedSearch) {
+    query = query.or(`name.ilike.%${sanitizedSearch}%,description.ilike.%${sanitizedSearch}%`);
   }
   if (categoryFilter) {
     query = query.eq('category_id', categoryFilter);
