@@ -3,10 +3,11 @@ import { redirect } from 'next/navigation';
 import { User, Mail, Calendar, MessageSquare, Leaf, ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
 import { signout } from '@/app/auth/actions';
+import { getCurrentUser } from '@/lib/auth-helper';
 
 export default async function ProfilePage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
 
   if (!user) {
     redirect('/login');

@@ -1,13 +1,12 @@
-import { createClient } from '@/lib/supabase-server';
+import { getCurrentUser } from '@/lib/auth-helper';
 import HeaderClient from './HeaderClient';
 
 export default async function Header() {
   let userEmail: string | null = null;
   try {
-    const supabase = await createClient();
-    const { data, error } = await supabase.auth.getUser();
-    if (!error && data?.user) {
-      userEmail = data.user.email || null;
+    const user = await getCurrentUser();
+    if (user?.email) {
+      userEmail = user.email;
     }
   } catch {
     userEmail = null;
