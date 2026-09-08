@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight, Sprout, Bot, Camera, Sparkles, ShoppingBag, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Sprout, Bot, Camera, Sparkles, ShoppingBag, ShieldCheck, Heart, Award } from 'lucide-react';
 
 export default function Home() {
   return (
@@ -79,7 +79,7 @@ export default function Home() {
               </div>
               <h3 className="text-lg font-bold text-slate-800 mb-2 group-hover:text-emerald-700 transition">Grounded AI Chat</h3>
               <p className="text-xs text-slate-500 leading-relaxed mb-4 flex-grow">
-                Answers your questions using our real plant database with zero hallucinations.
+                Answers your questions using our real plant database with catalog-grounded safeguards.
               </p>
               <span className="text-xs font-bold text-emerald-700 flex items-center gap-1 mt-auto">
                 Chat with Assistant <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
@@ -114,6 +114,27 @@ export default function Home() {
               </span>
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* Design Thinking Academic Review Showcase Banner */}
+      <section className="py-12 bg-emerald-950 text-white">
+        <div className="container mx-auto px-4 max-w-5xl flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div className="space-y-2 text-center sm:text-left">
+            <div className="inline-flex items-center gap-1.5 bg-emerald-800 text-emerald-200 text-xs font-bold px-3 py-1 rounded-full">
+              <Award className="w-3.5 h-3.5 text-emerald-400" /> Academic Project Portfolio
+            </div>
+            <h3 className="text-2xl font-black text-white">Explore Our Design Thinking Portfolio</h3>
+            <p className="text-xs sm:text-sm text-emerald-200 max-w-xl">
+              Discover the 5-stage human-centered methodology behind AI Nursery Assistant — Empathy Research, Personas, Problem Definition, Ideation, and Solution Matrix.
+            </p>
+          </div>
+          <Link
+            href="/design-thinking"
+            className="px-6 py-3.5 bg-white text-emerald-950 hover:bg-emerald-50 font-extrabold rounded-xl text-sm transition shadow-md flex items-center gap-2 flex-shrink-0"
+          >
+            <Heart className="w-4 h-4 text-emerald-700" /> View Portfolio Page
+          </Link>
         </div>
       </section>
 

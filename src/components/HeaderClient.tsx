@@ -46,6 +46,9 @@ export default function HeaderClient({ userEmail }: HeaderClientProps) {
             <Camera className="w-4 h-4 text-emerald-600" />
             <span>Plant Doctor</span>
           </Link>
+          <Link href="/design-thinking" className="text-slate-600 hover:text-green-700 transition">
+            Design Portfolio
+          </Link>
           <Link href="/about" className="text-slate-600 hover:text-green-700 transition">
             About
           </Link>
@@ -161,6 +164,13 @@ export default function HeaderClient({ userEmail }: HeaderClientProps) {
             >
               <Camera className="w-4 h-4 text-emerald-600" />
               <span>Plant Doctor (Photo Analysis)</span>
+            </Link>
+            <Link
+              href="/design-thinking"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2 rounded-lg font-medium text-slate-700 hover:bg-green-50 hover:text-green-700 transition"
+            >
+              Design Thinking Portfolio
             </Link>
             <Link
               href="/cart"
