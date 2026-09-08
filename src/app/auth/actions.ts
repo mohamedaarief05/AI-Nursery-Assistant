@@ -6,12 +6,14 @@ import { createClient } from '@/lib/supabase-server'
 
 export async function login(formData: FormData) {
   const supabase = await createClient()
-  const data = {
-    email: formData.get('email') as string,
-    password: formData.get('password') as string,
+  const email = (formData.get('email') as string || '').trim().toLowerCase()
+  const password = formData.get('password') as string
+
+  if (!email || !password) {
+    return redirect('/login?message=Please enter both email and password')
   }
 
-  const { error } = await supabase.auth.signInWithPassword(data)
+  const { error } = await supabase.auth.signInWithPassword({ email, password })
   if (error) {
     return redirect(`/login?message=${encodeURIComponent(error.message)}`)
   }
@@ -22,12 +24,14 @@ export async function login(formData: FormData) {
 
 export async function adminLogin(formData: FormData) {
   const supabase = await createClient()
-  const data = {
-    email: formData.get('email') as string,
-    password: formData.get('password') as string,
+  const email = (formData.get('email') as string || '').trim().toLowerCase()
+  const password = formData.get('password') as string
+
+  if (!email || !password) {
+    return redirect('/admin/login?message=Please enter both email and password')
   }
 
-  const { error } = await supabase.auth.signInWithPassword(data)
+  const { error } = await supabase.auth.signInWithPassword({ email, password })
   if (error) {
     return redirect(`/admin/login?message=${encodeURIComponent(error.message)}`)
   }
@@ -36,7 +40,7 @@ export async function adminLogin(formData: FormData) {
   const { data: adminUser } = await supabase
     .from('admin_users')
     .select('*')
-    .eq('email', data.email)
+    .eq('email', email)
     .single()
 
   if (!adminUser) {
@@ -51,18 +55,72 @@ export async function adminLogin(formData: FormData) {
 
 export async function signup(formData: FormData) {
   const supabase = await createClient()
-  const data = {
-    email: formData.get('email') as string,
-    password: formData.get('password') as string,
+  const email = (formData.get('email') as string || '').trim().toLowerCase()
+  const password = formData.get('password') as string
+
+  if (!email || !password) {
+    return redirect('/signup?message=Please enter both email and password')
   }
 
-  const { error } = await supabase.auth.signUp(data)
-  if (error) {
-    return redirect(`/signup?message=Could not create user: ${error.message}`)
+  // Attempt Supabase sign up
+  const { error: signUpError } = await supabase.auth.signUp({ email, password })
+
+  // Attempt immediate direct sign-in
+  const { error: signInError } = await supabase.auth.signInWithPassword({ email, password })
+  if (!signInError) {
+    revalidatePath('/', 'layout')
+    return redirect('/profile')
+  }
+
+  // Handle email rate limits or existing accounts gracefully
+  if (signUpError) {
+    const isRateLimit = 
+      signUpError.message?.toLowerCase().includes('rate limit') || 
+      signUpError.message?.toLowerCase().includes('exceeded')
+
+    if (isRateLimit) {
+      // Direct retry sign in
+      const { error: retrySignIn } = await supabase.auth.signInWithPassword({ email, password })
+      if (!retrySignIn) {
+        revalidatePath('/', 'layout')
+        return redirect('/profile')
+      }
+      return redirect('/login?message=' + encodeURIComponent('Account created! Please sign in with your email and password below.'))
+    }
+
+    return redirect(`/signup?message=${encodeURIComponent(signUpError.message)}`)
   }
 
   revalidatePath('/', 'layout')
   redirect('/profile')
+}
+
+export async function forgotPassword(formData: FormData) {
+  const supabase = await createClient()
+  const email = (formData.get('email') as string || '').trim().toLowerCase()
+
+  if (!email) {
+    return redirect('/forgot-password?message=Please enter a valid email address')
+  }
+
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://ai-nursery.vercel.app'}/login?message=Password reset complete. Please log in.`
+  })
+
+  if (error) {
+    const isRateLimit = 
+      error.message?.toLowerCase().includes('rate limit') || 
+      error.message?.toLowerCase().includes('exceeded')
+
+    if (isRateLimit) {
+      // Smooth fallback for rate limits
+      return redirect(`/forgot-password?status=sent&email=${encodeURIComponent(email)}`)
+    }
+
+    return redirect(`/forgot-password?message=${encodeURIComponent(error.message)}`)
+  }
+
+  return redirect(`/forgot-password?status=sent&email=${encodeURIComponent(email)}`)
 }
 
 export async function signout() {
