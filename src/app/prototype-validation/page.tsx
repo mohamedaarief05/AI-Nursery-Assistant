@@ -40,13 +40,13 @@ export default function PrototypeValidationPage() {
     },
     {
       id: 2,
-      title: 'Participant 2 • User Testing Trial',
-      profile: 'Participant 2 (Friend 2 • Target User Profile)',
-      task: 'Upload leaf photo to Plant Doctor for instant health diagnosis',
-      observation: 'Uploaded leaf JPEG photo. Received species ID and foliage report in < 2 seconds.',
-      feedback: 'Diagnosis response time was surprisingly fast! Great leaf spot detection.',
-      issue: 'Wanted 1-click cart addition directly from diagnosis report page.',
-      improvement: 'Added "Add Matching Nursery Plant to Cart" button directly below diagnosis report.'
+      title: 'Participant 2 • Selva Kumar (Nursery Customer)',
+      profile: 'Selva Kumar (Plant Nursery Customer & Regular Buyer)',
+      task: 'Test overall website navigation and upload leaf photo to Plant Doctor (/plant-analysis)',
+      observation: 'Tested site flow and leaf diagnosis tool. Noticed page speed lag and initial photo upload issues.',
+      feedback: 'Overall website experience is good and useful once loaded properly.',
+      issue: 'Website loading speed was slow and Plant Doctor diagnosis tool was not working properly initially.',
+      improvement: 'Optimized website execution speed to be smooth and overhauled Plant Doctor photo upload API so it now works properly.'
     },
     {
       id: 3,
@@ -74,7 +74,7 @@ export default function PrototypeValidationPage() {
   // Load from localStorage on mount
   useEffect(() => {
     try {
-      const CURRENT_VERSION = 'v3_dinesh_btech';
+      const CURRENT_VERSION = 'v4_selva_kumar';
       const savedVersion = localStorage.getItem('validation_version');
       if (savedVersion !== CURRENT_VERSION) {
         localStorage.removeItem('validation_status');
