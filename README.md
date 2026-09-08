@@ -68,15 +68,17 @@ Traditional local plant nurseries face significant customer drop-offs caused by:
 
 ---
 
-## 👥 Real-User Validation Log
+## 👥 Prototype & Real-User Validation Status
 
-During Phase 2 user testing trials, feedback was gathered from 3 representative participants:
+> **Prototype & User Validation: Pending real-user testing.**
 
-| Participant | Profile / Role | Assigned Task | Key Feedback & Issue | Implemented Action |
+A structured testing workflow and questionnaire have been prepared at [`/prototype-validation`](https://ai-nursery.vercel.app/prototype-validation) to evaluate usability with at least 3 real users across 5 structured tasks (Plant Discovery, AI Assistant, Plant Doctor, Find My Plant Quiz, and Overall Experience).
+
+| Slot | Profile / Role | Tasks Assigned | User Feedback | Status |
 |---|---|---|---|---|
-| **Dinesh** | B.Tech Engineering Student | Plant Catalog & Multi-Filters (`/plants`) | *Catalog interface was nice, but website page transition loading occasionally felt slow.* | Optimized static asset bundling, component caching, and image loading for smooth UI execution. |
-| **Selva Kumar** | Nursery Customer & Buyer | Website Navigation & Plant Doctor (`/plant-analysis`) | *Overall experience is good, but Plant Doctor diagnosis tool was not working properly initially.* | Overhauled Plant Doctor photo upload API stability and optimized execution speed. |
-| **Prasanth** | Local Nursery Owner | Commercial Features & Ask AI Guidance (`/chat`) | *Website presentation was good; requested customer feedback forms and richer AI care tips.* | Enriched Ask AI care tips knowledge base with detailed sunlight/watering advice and added customer feedback channels. |
+| **Tester 1** | *To be filled after testing* | Task A–E | *To be filled after testing* | Pending |
+| **Tester 2** | *To be filled after testing* | Task A–E | *To be filled after testing* | Pending |
+| **Tester 3** | *To be filled after testing* | Task A–E | *To be filled after testing* | Pending |
 
 ---
 
