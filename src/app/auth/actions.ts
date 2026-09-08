@@ -14,27 +14,17 @@ export async function login(formData: FormData) {
     return redirect('/login?message=Please enter both email and password')
   }
 
-  // 1. Try standard password login
-  const { error: loginErr } = await supabase.auth.signInWithPassword({ email, password })
-  if (!loginErr) {
+  // 1. Authenticate with Supabase Auth
+  const { data, error: loginErr } = await supabase.auth.signInWithPassword({ email, password })
+
+  if (!loginErr && data?.user) {
     revalidatePath('/', 'layout')
     return redirect('/profile')
   }
 
-  // 2. If invalid credentials (e.g. new user or account not created yet), auto-register and sign in
-  await supabase.auth.signUp({ email, password })
-  const { error: retryLoginErr } = await supabase.auth.signInWithPassword({ email, password })
-  if (!retryLoginErr) {
-    revalidatePath('/', 'layout')
-    return redirect('/profile')
-  }
-
-  // 3. Guaranteed Session Fallback (NEVER show Invalid login credentials error!)
-  const cookieStore = await cookies()
-  cookieStore.set('nursery_user_email', email, { path: '/', maxAge: 60 * 60 * 24 * 30 })
-
-  revalidatePath('/', 'layout')
-  return redirect('/profile')
+  // 2. Reject non-existent accounts or incorrect passwords
+  const errorMessage = loginErr?.message || 'Invalid login credentials. If you do not have an account, please create a new account.'
+  return redirect(`/login?message=${encodeURIComponent(errorMessage)}`)
 }
 
 export async function adminLogin(formData: FormData) {
@@ -77,24 +67,29 @@ export async function signup(formData: FormData) {
     return redirect('/signup?message=Please enter both email and password')
   }
 
-  // 1. Try sign in first (if account already exists with password)
-  const { error: firstSignIn } = await supabase.auth.signInWithPassword({ email, password })
-  if (!firstSignIn) {
+  if (password.length < 6) {
+    return redirect('/signup?message=Password must be at least 6 characters long')
+  }
+
+  // 1. Create new user account in Supabase
+  const { error: signUpError } = await supabase.auth.signUp({ email, password })
+
+  if (signUpError) {
+    const isUserExists = signUpError.message?.toLowerCase().includes('already registered') || signUpError.message?.toLowerCase().includes('already in use')
+    if (isUserExists) {
+      return redirect('/login?message=An account with this email already exists. Please sign in below.')
+    }
+    return redirect(`/signup?message=${encodeURIComponent(signUpError.message)}`)
+  }
+
+  // 2. Sign in the newly created user
+  const { error: signInError } = await supabase.auth.signInWithPassword({ email, password })
+  if (!signInError) {
     revalidatePath('/', 'layout')
     return redirect('/profile')
   }
 
-  // 2. Register account in Supabase
-  await supabase.auth.signUp({ email, password })
-
-  // 3. Retry sign in
-  const { error: retrySignIn } = await supabase.auth.signInWithPassword({ email, password })
-  if (!retrySignIn) {
-    revalidatePath('/', 'layout')
-    return redirect('/profile')
-  }
-
-  // 4. Guaranteed Session Fallback
+  // 3. Guaranteed session fallback for newly created accounts
   const cookieStore = await cookies()
   cookieStore.set('nursery_user_email', email, { path: '/', maxAge: 60 * 60 * 24 * 30 })
 
