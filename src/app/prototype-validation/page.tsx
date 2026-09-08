@@ -134,19 +134,12 @@ export default function PrototypeValidationPage() {
           <div className="flex items-center gap-2">
             <Edit3 className="w-5 h-5 text-emerald-400" />
             <div>
-              <span className="font-bold text-sm text-white block">Interactive Report Editor & Participant Form</span>
-              <span className="text-xs text-slate-400">Click to fill out testing form or edit report text live</span>
+              <span className="font-bold text-sm text-white block">Interactive Report Editor</span>
+              <span className="text-xs text-slate-400">Click edit to type your real user feedback directly into this report</span>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
-            <Link
-              href="/testing-form"
-              className="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded-xl text-xs transition flex items-center gap-1 shadow-xs"
-            >
-              <span>📝 Open Testing Form</span>
-            </Link>
-
             {isEditing ? (
               <>
                 <button
@@ -165,7 +158,7 @@ export default function PrototypeValidationPage() {
             ) : (
               <button
                 onClick={() => setIsEditing(true)}
-                className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-extrabold rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm border border-slate-700"
+                className="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold rounded-xl text-xs transition flex items-center gap-1.5 shadow-sm"
               >
                 <Edit3 className="w-4 h-4" /> Edit Validation Text
               </button>
