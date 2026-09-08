@@ -578,49 +578,202 @@ export default function PrototypeValidationPage() {
           </div>
         </section>
 
-        {/* SECTION 6: CONSOLIDATED FEEDBACK → IMPROVEMENT TABLE */}
-        <section className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/80 shadow-sm space-y-6">
+        {/* SECTION 6: USER FEEDBACK → IMPROVEMENT OPPORTUNITIES */}
+        <section className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/80 shadow-sm space-y-8">
           <div className="border-b border-slate-200 pb-4">
             <span className="text-xs font-extrabold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
               Section 6
             </span>
-            <h2 className="text-2xl sm:text-3xl font-black text-slate-800 mt-2">
-              6. Consolidated Feedback &amp; Improvement Opportunities
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-800 mt-2 flex items-center gap-2">
+              💡 User Feedback → Improvement Opportunities
             </h2>
-            <p className="text-xs text-slate-500 mt-1">Mapping real user observations to identified opportunities and feature roadmap status.</p>
+            <p className="text-xs text-slate-500 mt-1">
+              Summarizing actual feedback collected from the three real testers, mapping user observations to identified opportunities and future roadmap enhancements.
+            </p>
           </div>
 
+          {/* Feedback Table */}
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs border-collapse">
               <thead>
-                <tr className="bg-slate-100 text-slate-700 uppercase tracking-wider font-extrabold border-b border-slate-200 text-[10px]">
-                  <th className="p-3.5 rounded-tl-xl">Real User Feedback</th>
-                  <th className="p-3.5">Identified Opportunity</th>
-                  <th className="p-3.5">Improvement / Future Enhancement</th>
-                  <th className="p-3.5 rounded-tr-xl">Implementation Status</th>
+                <tr className="bg-slate-100 text-slate-800 uppercase tracking-wider font-extrabold border-b border-slate-200 text-[10px]">
+                  <th className="p-3.5 rounded-tl-xl w-1/3">User Feedback</th>
+                  <th className="p-3.5 w-1/3">Problem / Opportunity</th>
+                  <th className="p-3.5 rounded-tr-xl w-1/3">Suggested Improvement</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-200 text-slate-700">
-                {consolidatedFeedback.map((item, idx) => (
-                  <tr key={idx} className="hover:bg-slate-50">
-                    <td className="p-3.5 font-bold text-slate-900">{item.feedback}</td>
-                    <td className="p-3.5 text-slate-600">{item.opportunity}</td>
-                    <td className="p-3.5 font-medium text-emerald-950">{item.enhancement}</td>
-                    <td className="p-3.5">
-                      <span className={`px-2.5 py-1 rounded-full text-[10px] font-extrabold inline-block ${
-                        item.status.includes('Implemented') 
-                          ? 'bg-emerald-100 text-emerald-900 border border-emerald-300' 
-                          : item.status.includes('Validated')
-                          ? 'bg-blue-100 text-blue-900 border border-blue-300'
-                          : 'bg-amber-100 text-amber-900 border border-amber-300'
-                      }`}>
-                        {item.status}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
+                <tr className="hover:bg-slate-50/80 transition">
+                  <td className="p-3.5 font-bold text-slate-900 leading-relaxed">
+                    Ask AI responses sometimes take longer than expected.
+                  </td>
+                  <td className="p-3.5 text-slate-600 leading-relaxed">
+                    AI interaction can feel slow.
+                  </td>
+                  <td className="p-3.5 font-semibold text-emerald-950 leading-relaxed">
+                    Improve the loading and response experience of Ask AI.
+                    <span className="block mt-1 text-[10px] font-extrabold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 inline-block">
+                      Suggested Improvement / Future Enhancement
+                    </span>
+                  </td>
+                </tr>
+
+                <tr className="hover:bg-slate-50/80 transition">
+                  <td className="p-3.5 font-bold text-slate-900 leading-relaxed">
+                    “Add history in Ask AI.”
+                  </td>
+                  <td className="p-3.5 text-slate-600 leading-relaxed">
+                    Users cannot easily review previous conversations.
+                  </td>
+                  <td className="p-3.5 font-semibold text-emerald-950 leading-relaxed">
+                    Add Ask AI conversation history.
+                    <span className="block mt-1 text-[10px] font-extrabold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 inline-block">
+                      Suggested Improvement / Future Enhancement
+                    </span>
+                  </td>
+                </tr>
+
+                <tr className="hover:bg-slate-50/80 transition">
+                  <td className="p-3.5 font-bold text-slate-900 leading-relaxed">
+                    Plant-care information could be organized more clearly.
+                  </td>
+                  <td className="p-3.5 text-slate-600 leading-relaxed">
+                    Information presentation can be improved.
+                  </td>
+                  <td className="p-3.5 font-semibold text-emerald-950 leading-relaxed">
+                    Improve the structure and formatting of plant-care information.
+                    <span className="block mt-1 text-[10px] font-extrabold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 inline-block">
+                      Suggested Improvement / Future Enhancement
+                    </span>
+                  </td>
+                </tr>
+
+                <tr className="hover:bg-slate-50/80 transition">
+                  <td className="p-3.5 font-bold text-slate-900 leading-relaxed">
+                    Navigation between sections can sometimes be confusing.
+                  </td>
+                  <td className="p-3.5 text-slate-600 leading-relaxed">
+                    Users may have difficulty moving between major sections.
+                  </td>
+                  <td className="p-3.5 font-semibold text-emerald-950 leading-relaxed">
+                    Make navigation more intuitive and consistent.
+                    <span className="block mt-1 text-[10px] font-extrabold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 inline-block">
+                      Suggested Improvement / Future Enhancement
+                    </span>
+                  </td>
+                </tr>
+
+                <tr className="hover:bg-slate-50/80 transition">
+                  <td className="p-3.5 font-bold text-slate-900 leading-relaxed">
+                    Customer feedback was suggested.
+                  </td>
+                  <td className="p-3.5 text-slate-600 leading-relaxed">
+                    Nursery owners need a way to collect customer opinions.
+                  </td>
+                  <td className="p-3.5 font-semibold text-emerald-950 leading-relaxed">
+                    Add a dedicated customer feedback feature.
+                    <span className="block mt-1 text-[10px] font-extrabold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 inline-block">
+                      Suggested Improvement / Future Enhancement
+                    </span>
+                  </td>
+                </tr>
+
+                <tr className="hover:bg-slate-50/80 transition">
+                  <td className="p-3.5 font-bold text-slate-900 leading-relaxed">
+                    Admin Dashboard was very good and easy to understand.
+                  </td>
+                  <td className="p-3.5 text-slate-600 leading-relaxed">
+                    Existing dashboard usability was positively validated.
+                  </td>
+                  <td className="p-3.5 font-semibold text-emerald-950 leading-relaxed">
+                    Maintain the current clear and simple dashboard structure.
+                    <span className="block mt-1 text-[10px] font-extrabold text-blue-800 bg-blue-50 px-2 py-0.5 rounded border border-blue-200 inline-block">
+                      Validated &amp; Maintained
+                    </span>
+                  </td>
+                </tr>
               </tbody>
             </table>
+          </div>
+
+          {/* Validation Insight — What We Learned */}
+          <div className="bg-emerald-50/70 border border-emerald-200 rounded-2xl p-6 space-y-3">
+            <h3 className="text-sm font-extrabold text-emerald-900 flex items-center gap-2 uppercase tracking-wider">
+              🔄 Validation Insight: What We Learned
+            </h3>
+            <ul className="grid grid-cols-1 md:grid-cols-2 gap-2.5 text-xs text-emerald-950 font-medium">
+              <li className="flex items-start gap-2 bg-white p-3 rounded-xl border border-emerald-200/80 shadow-2xs">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+                <span>Users found the website generally easy to understand.</span>
+              </li>
+              <li className="flex items-start gap-2 bg-white p-3 rounded-xl border border-emerald-200/80 shadow-2xs">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+                <span>Plant search and filtering were considered easy to use.</span>
+              </li>
+              <li className="flex items-start gap-2 bg-white p-3 rounded-xl border border-emerald-200/80 shadow-2xs">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+                <span>Ask AI was considered useful, with response speed identified as an improvement opportunity.</span>
+              </li>
+              <li className="flex items-start gap-2 bg-white p-3 rounded-xl border border-emerald-200/80 shadow-2xs">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+                <span>Plant Doctor was considered useful and easy to use.</span>
+              </li>
+              <li className="flex items-start gap-2 bg-white p-3 rounded-xl border border-emerald-200/80 shadow-2xs">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+                <span>Find My Plant was useful for discovering suitable plants.</span>
+              </li>
+              <li className="flex items-start gap-2 bg-white p-3 rounded-xl border border-emerald-200/80 shadow-2xs">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+                <span>Navigation was generally positive, although one tester found movement between sections slightly confusing.</span>
+              </li>
+              <li className="flex items-start gap-2 bg-white p-3 rounded-xl border border-emerald-200/80 shadow-2xs">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+                <span>The Nursery Owner found the Admin Dashboard easy to understand.</span>
+              </li>
+              <li className="flex items-start gap-2 bg-white p-3 rounded-xl border border-emerald-200/80 shadow-2xs">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
+                <span>A customer feedback feature was suggested as a future enhancement.</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* Design Thinking Connection */}
+          <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 space-y-3">
+            <h3 className="text-sm font-extrabold text-slate-800 flex items-center gap-2 uppercase tracking-wider">
+              🎯 Design Thinking Connection: How User Feedback Influences the Next Iteration
+            </h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              The empirical feedback collected during genuine real-user testing directly informs our iterative design cycle. Rather than making speculative assumptions, user observations will be used to prioritize the roadmap for future product iterations:
+            </p>
+            <ol className="list-decimal list-inside space-y-1.5 text-xs text-slate-800 font-semibold pl-2">
+              <li>Ask AI conversation history</li>
+              <li>Better Ask AI loading and response experience</li>
+              <li>Clearer plant-care information organization</li>
+              <li>Improved navigation visibility and consistency between sections</li>
+              <li>Dedicated customer feedback functionality</li>
+            </ol>
+            <p className="text-[11px] text-slate-500 italic pt-1 border-t border-slate-200">
+              Note: The items listed above represent future iteration roadmap priorities based on participant feedback and are not presented as completed features.
+            </p>
+          </div>
+
+          {/* Final Validation Status Card */}
+          <div className="bg-gradient-to-r from-emerald-900 via-green-900 to-emerald-950 text-white p-6 sm:p-8 rounded-2xl shadow-md space-y-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-emerald-700/60 pb-4">
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="w-6 h-6 text-emerald-400 flex-shrink-0" />
+                <div>
+                  <h3 className="text-lg font-black tracking-tight text-white">✅ REAL-USER VALIDATION COMPLETED</h3>
+                  <p className="text-xs text-emerald-200 font-medium">3 / 3 Genuine Testers Completed</p>
+                </div>
+              </div>
+              <span className="text-xs font-extrabold bg-emerald-800/80 text-emerald-100 px-3 py-1.5 rounded-xl border border-emerald-600/60 w-fit">
+                Testing Dates: 8–9 September 2026
+              </span>
+            </div>
+            <p className="text-xs sm:text-sm text-emerald-100 leading-relaxed pt-1">
+              Real-user testing provided practical feedback from a Student, Customer, and Nursery Owner. The findings identify both validated strengths and opportunities for future iterations.
+            </p>
           </div>
         </section>
 
