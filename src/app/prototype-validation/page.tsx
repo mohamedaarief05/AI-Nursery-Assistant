@@ -44,87 +44,54 @@ interface EvidenceItem {
 
 export default function PrototypeValidationPage() {
   const [isEditing, setIsEditing] = useState(false);
-  const [status, setStatus] = useState<'Pending' | 'Completed'>('Completed');
+  const [status, setStatus] = useState<'Pending' | 'Completed'>('Pending');
   const [activeEvidenceModal, setActiveEvidenceModal] = useState<EvidenceItem | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [targetCategoryForUpload, setTargetCategoryForUpload] = useState<'Screenshots' | 'Questionnaires' | 'Photos' | 'Notes'>('Photos');
 
-  // Real-User Testing Genuine Results (Dinesh, Selva Kumar, Prasanth)
+  // Clean Template Placeholders for Real-User Testing (Zero Fabrication)
   const defaultTesters = [
     {
       id: 1,
-      title: 'Tester 1 (Dinesh)',
-      profile: 'Customer / Plant Buyer',
-      task: 'Task A — Plant Discovery & Catalog Filtering (/plants)',
-      observation: 'Navigated plant catalog, searched by name, and applied sunlight, category, and price range filters.',
-      feedback: 'The website catalog selection is very good and clear, but filter response speed felt a bit slow initially.',
-      issue: 'Full-page reload delay when submitting catalog filter form.',
-      improvement: 'Upgraded plant catalog to instant client-side search & filtering (0ms response delay), added lazy image loading, and configured 60s route revalidation caching.'
+      title: 'Tester 1',
+      profile: 'To be filled after testing',
+      task: 'To be filled after testing',
+      observation: 'To be filled after testing',
+      feedback: 'To be filled after testing',
+      issue: 'To be filled after testing',
+      improvement: 'To be filled after testing'
     },
     {
       id: 2,
-      title: 'Tester 2 (Selva Kumar)',
-      profile: 'Customer / Plant Enthusiast',
-      task: 'Task C — Plant Doctor Image Diagnosis (/plant-analysis) & Site Speed Review',
-      observation: 'Uploaded leaf photo for disease diagnosis and reviewed site speed across pages.',
-      feedback: 'Website was good overall, but initially Plant Doctor diagnosis tool had an error and site felt slow.',
-      issue: 'Plant Doctor API timeout and general page loading latency.',
-      improvement: 'Made website smooth, fixed Plant Doctor Gemini API error handling & timeout fallbacks, and optimized layout rendering.'
+      title: 'Tester 2',
+      profile: 'To be filled after testing',
+      task: 'To be filled after testing',
+      observation: 'To be filled after testing',
+      feedback: 'To be filled after testing',
+      issue: 'To be filled after testing',
+      improvement: 'To be filled after testing'
     },
     {
       id: 3,
-      title: 'Tester 3 (Prasanth)',
-      profile: 'Nursery Owner / Commercial Expert',
-      task: 'Task B — Grounded Ask AI Assistant (/chat) & Review Workflow',
-      observation: 'Asked Ask AI detailed plant care questions and evaluated nursery customer review workflow.',
-      feedback: 'Website was good, but requested a customer feedback form to review site/products and richer care tips from Ask AI.',
-      issue: 'Lack of customer review form and brief care guidance responses.',
-      improvement: 'Added Customer Feedback & Product Review Form (/feedback) and enriched Ask AI system prompt with detailed care routines (watering, sunlight, pruning, soil).'
+      title: 'Tester 3',
+      profile: 'To be filled after testing',
+      task: 'To be filled after testing',
+      observation: 'To be filled after testing',
+      feedback: 'To be filled after testing',
+      issue: 'To be filled after testing',
+      improvement: 'To be filled after testing'
     }
   ];
 
   const defaultSummary = {
-    useful: 'Real users found the plant catalog layout, Plant Doctor photo analysis, and Ask AI assistant highly useful and practical for nursery shopping.',
-    confusing: 'Initial full-page reloads when applying catalog filters felt slow to users before instant client filtering was enabled.',
-    requested: 'Testers requested customer review/feedback form on the website, instant filter response, and richer plant care tips in Ask AI.',
-    issues: 'Filter reload latency and initial Plant Doctor API error were identified and resolved.',
-    planned: 'Phase 3 completed items: Instant client catalog filtering, Plant Doctor vision fix, Customer Feedback page (/feedback), and enriched Ask AI care tips.'
+    useful: 'To be filled after testing with real users.',
+    confusing: 'To be filled after testing with real users.',
+    requested: 'To be filled after testing with real users.',
+    issues: 'To be filled after testing with real users.',
+    planned: 'Phase 3 planned additions: Expanded user testing feedback, IoT soil moisture sensors, and automated tracking.'
   };
 
-  const defaultEvidence: EvidenceItem[] = [
-    {
-      id: 'ev-1',
-      category: 'Screenshots',
-      title: 'Plant Catalog Instant Filtering Trial',
-      description: 'Dinesh tested search & instant sunlight/price multi-filters on /plants.',
-      date: 'Sept 8, 2026',
-      dataUrl: 'https://images.unsplash.com/photo-1463936575829-25148e1db1b8?w=800&auto=format&fit=crop'
-    },
-    {
-      id: 'ev-2',
-      category: 'Questionnaires',
-      title: '10-Question Survey Response Log Matrix',
-      description: 'Filled survey matrix for 3 participants (Dinesh, Selva Kumar, Prasanth).',
-      date: 'Sept 8, 2026',
-      dataUrl: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&auto=format&fit=crop'
-    },
-    {
-      id: 'ev-3',
-      category: 'Photos',
-      title: 'Plant Doctor Vision Diagnosis Scan',
-      description: 'Selva Kumar uploaded leaf photo for Gemini 3.5 disease diagnosis trial.',
-      date: 'Sept 8, 2026',
-      dataUrl: 'https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?w=800&auto=format&fit=crop'
-    },
-    {
-      id: 'ev-4',
-      category: 'Notes',
-      title: 'Trial Observer Session Log & Dates',
-      description: 'Session log: 3 testing trials completed (Task A–E), zero open bugs remaining.',
-      date: 'Sept 8, 2026',
-      dataUrl: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=800&auto=format&fit=crop'
-    }
-  ];
+  const defaultEvidence: EvidenceItem[] = [];
 
   const [testers, setTesters] = useState(defaultTesters);
   const [summary, setSummary] = useState(defaultSummary);
@@ -340,7 +307,7 @@ export default function PrototypeValidationPage() {
             <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100">
               <span className="text-[10px] font-bold uppercase text-slate-400 block">Required Testers</span>
               <span className="text-xs font-black text-slate-800 flex items-center gap-1">
-                <Users className="w-3.5 h-3.5 text-emerald-600" /> 3 Real Testers (Completed)
+                <Users className="w-3.5 h-3.5 text-emerald-600" /> Min. 3 Real Users
               </span>
             </div>
             <div className="p-3 bg-slate-50 rounded-2xl border border-slate-100">

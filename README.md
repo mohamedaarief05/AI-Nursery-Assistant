@@ -70,15 +70,15 @@ Traditional local plant nurseries face significant customer drop-offs caused by:
 
 ## 👥 Prototype & Real-User Validation Status
 
-> **Prototype & User Validation: Completed with 3 real user trials (Dinesh, Selva Kumar, Prasanth).**
+> **Prototype & User Validation: Pending real-user testing.**
 
-A structured testing workflow and questionnaire have been completed at [`/prototype-validation`](https://ai-nursery.vercel.app/prototype-validation) to evaluate usability with 3 real users across structured tasks (Plant Discovery, AI Assistant, Plant Doctor, Find My Plant Quiz, and Overall Experience).
+A structured testing workflow and questionnaire have been prepared at [`/prototype-validation`](https://ai-nursery.vercel.app/prototype-validation) to evaluate usability with at least 3 real users across 5 structured tasks (Plant Discovery, AI Assistant, Plant Doctor, Find My Plant Quiz, and Overall Experience).
 
-| Slot | Profile / Role | Tasks Assigned | User Feedback & Outcome | Status |
+| Slot | Profile / Role | Tasks Assigned | User Feedback | Status |
 |---|---|---|---|---|
-| **Tester 1 (Dinesh)** | Customer / Plant Buyer | Task A — Catalog Filters | Catalog selection is very good; requested faster filter response. Upgraded catalog to instant 0ms client filtering & caching. | Verified |
-| **Tester 2 (Selva Kumar)** | Customer / Plant Enthusiast | Task C — Plant Doctor & Speed | Website good overall; requested smooth performance & Plant Doctor fix. Added Gemini vision fallbacks & smooth page rendering. | Verified |
-| **Tester 3 (Prasanth)** | Nursery Owner / Commercial Expert | Task B — Ask AI & Reviews | Requested customer feedback form & richer care tips. Created Customer Feedback Form (`/feedback`) & enriched AI care tips. | Verified |
+| **Tester 1** | *To be filled after testing* | Task A–E | *To be filled after testing* | Pending |
+| **Tester 2** | *To be filled after testing* | Task A–E | *To be filled after testing* | Pending |
+| **Tester 3** | *To be filled after testing* | Task A–E | *To be filled after testing* | Pending |
 
 ---
 
