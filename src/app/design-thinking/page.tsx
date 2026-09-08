@@ -29,39 +29,66 @@ export default function DesignThinkingPage() {
   const personas = [
     {
       id: 'persona-1',
-      tag: 'Persona 1 • Primary User',
-      name: 'Aarav Sharma',
-      role: 'Beginner Plant Buyer (Age 26)',
+      tag: 'Persona 1 • Technical & Buyer Reviewer',
+      name: 'Dinesh',
+      role: 'B.Tech Engineering Student & Plant Buyer',
       avatarBg: 'bg-emerald-100 text-emerald-800',
-      avatarIcon: '🪴',
-      goals: ['Decorate his apartment desk with low-maintenance greenery', 'Avoid killing plants due to lack of care knowledge'],
-      needs: ['Plain-language plant recommendations based on room sunlight', 'Step-by-step watering instructions without complex botanical jargon'],
-      painPoints: ['Overwhelmed by confusing botanical terms at local nurseries', 'Worried about spending money on plants that die within weeks'],
-      solutionFit: 'Uses AI Nursery Assistant chat & catalog filters to discover low-light indoor plants under ₹200 with clear daily care rules.'
+      avatarIcon: '💻',
+      goals: [
+        'Filter plant catalog easily by room lighting and price budget',
+        'Ensure smooth, fast website execution speed and page transitions'
+      ],
+      needs: [
+        'Multi-criteria catalog filters (low light, under ₹250)',
+        'Optimized static asset bundling and fast UI responsiveness'
+      ],
+      painPoints: [
+        'Experienced website execution speed latency during initial page loads',
+        'Confusing icon-only care tags on mobile screens without clear text'
+      ],
+      solutionFit: 'Tested Plant Catalog & Multi-Filters. Website speed bundling was optimized to ensure smooth and fast user interaction.'
     },
     {
       id: 'persona-2',
-      tag: 'Persona 2 • Secondary User',
-      name: 'Priya Patel',
-      role: 'Home Gardener & Enthusiast (Age 34)',
+      tag: 'Persona 2 • Nursery Customer',
+      name: 'Selva Kumar',
+      role: 'Plant Nursery Customer & Regular Buyer',
       avatarBg: 'bg-blue-100 text-blue-800',
-      avatarIcon: '🌿',
-      goals: ['Identify plant foliage yellowing or leaf spots early', 'Find unique flowering plants suitable for balcony sunlight'],
-      needs: ['Instant visual photo diagnosis for plant health concerns', 'Quick cross-referencing with local nursery inventory for availability'],
-      painPoints: ['Waiting for busy nursery staff callbacks to get care advice', 'Misdiagnosing leaf diseases using generic internet search results'],
-      solutionFit: 'Uploads leaf photos to Plant Doctor AI Vision for instant botanical health reports and 1-click cart addition for in-stock plants.'
+      avatarIcon: '🪴',
+      goals: [
+        'Diagnose leaf foliage issues quickly using smartphone camera photos',
+        'Check nursery stock and purchase matching healthy plants'
+      ],
+      needs: [
+        'Simple, fast photo upload for instant leaf disease diagnosis',
+        'Reliable API execution with zero photo processing errors'
+      ],
+      painPoints: [
+        'Website loading speed felt slow during initial navigation',
+        'Plant Doctor photo diagnosis tool was not working properly initially'
+      ],
+      solutionFit: 'Evaluated Plant Doctor Vision API. System overhaul fixed photo upload stability and optimized diagnosis execution speed.'
     },
     {
       id: 'persona-3',
       tag: 'Persona 3 • Business Stakeholder',
-      name: 'Rajesh Verma',
-      role: 'Local Nursery Owner (Age 48)',
+      name: 'Prasanth',
+      role: 'Local Plant Nursery Owner & Evaluator',
       avatarBg: 'bg-amber-100 text-amber-800',
       avatarIcon: '🏪',
-      goals: ['Provide 24/7 customer support without hiring extra weekend staff', 'Manage plant stock, customer enquiries, and order fulfillment efficiently'],
-      needs: ['Automated AI assistant to handle repetitive basic customer care questions', 'Centralized admin portal for plant availability toggles and UPI payment tracking'],
-      painPoints: ['Staff overcrowded with basic repetitive questions during weekend peak hours', 'Losing online plant sales due to delayed response times'],
-      solutionFit: 'Deploys AI Assistant to handle 24/7 customer queries while managing orders and stock through the Admin Dashboard.'
+      goals: [
+        'Provide 24/7 automated care guidance to nursery customers',
+        'Collect online customer reviews and feedback on products & website'
+      ],
+      needs: [
+        'Rich, comprehensive AI plant care advice (sunlight, watering, soil mix)',
+        'Dedicated customer review & feedback form on the website'
+      ],
+      painPoints: [
+        'Basic AI answers lacking deep botanical care guidance',
+        'No built-in digital customer review channel for nursery visitors'
+      ],
+      solutionFit: 'Assessed commercial & AI features. Enriched Ask AI care tips knowledge base and planned customer review feedback form channels.'
     }
   ];
 
