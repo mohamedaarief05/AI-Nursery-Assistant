@@ -49,6 +49,9 @@ export default function HeaderClient({ userEmail }: HeaderClientProps) {
           <Link href="/design-thinking" className="text-slate-600 hover:text-green-700 transition">
             Design Portfolio
           </Link>
+          <Link href="/prototype-validation" className="text-slate-600 hover:text-green-700 transition">
+            Validation Report
+          </Link>
           <Link href="/about" className="text-slate-600 hover:text-green-700 transition">
             About
           </Link>
@@ -171,6 +174,13 @@ export default function HeaderClient({ userEmail }: HeaderClientProps) {
               className="px-3 py-2 rounded-lg font-medium text-slate-700 hover:bg-green-50 hover:text-green-700 transition"
             >
               Design Thinking Portfolio
+            </Link>
+            <Link
+              href="/prototype-validation"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2 rounded-lg font-medium text-slate-700 hover:bg-green-50 hover:text-green-700 transition"
+            >
+              Prototype & Validation Report
             </Link>
             <Link
               href="/cart"

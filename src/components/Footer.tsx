@@ -24,6 +24,7 @@ export default function Footer() {
             <li><Link href="/find-my-plant" className="hover:text-white transition">Find My Plant</Link></li>
             <li><Link href="/plant-analysis" className="hover:text-white transition">Plant Doctor</Link></li>
             <li><Link href="/design-thinking" className="hover:text-white transition font-semibold text-emerald-300">Design Portfolio</Link></li>
+            <li><Link href="/prototype-validation" className="hover:text-white transition font-semibold text-emerald-300">Validation Report</Link></li>
             <li><Link href="/chat" className="hover:text-white transition">AI Assistant</Link></li>
             <li><Link href="/about" className="hover:text-white transition">About Us</Link></li>
             <li><Link href="/admin/login" className="hover:text-white transition opacity-70">Admin Login</Link></li>
