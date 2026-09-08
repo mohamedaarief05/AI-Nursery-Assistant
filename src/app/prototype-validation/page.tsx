@@ -30,13 +30,13 @@ export default function PrototypeValidationPage() {
   const defaultTesters = [
     {
       id: 1,
-      title: 'Participant 1 • User Testing Trial',
-      profile: 'Participant 1 (Friend 1 • Target User Profile)',
-      task: 'Use Catalog Filters to find low-light indoor plants under ₹250',
-      observation: 'Applied light and price filters in 30s. Verified filter responsiveness.',
-      feedback: 'Filter bar is very smooth and fast. Price ranges under ₹250 helped budget choice.',
-      issue: 'Sunlight icon hover tooltip needed clearer label on mobile screens.',
-      improvement: 'Added explicit text labels (Low Light, Medium, Direct Sun) next to care icons.'
+      title: 'Participant 1 • Dinesh (B.Tech Engineering)',
+      profile: 'Dinesh (B.Tech Engineering Student • Technical Reviewer)',
+      task: 'Evaluate Plant Catalog navigation, multi-filters, and UI responsiveness (/plants)',
+      observation: 'Tested catalog filtering across categories and price ranges. Observed slight initial load latency.',
+      feedback: 'The catalog interface and filters were very nice, but noticed occasional performance slowness.',
+      issue: 'Website execution speed and page transition loading occasionally felt slow.',
+      improvement: 'Optimized static asset bundling, component caching, and image loading to make the website smooth and fast.'
     },
     {
       id: 2,
