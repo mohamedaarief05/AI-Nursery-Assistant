@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase-server';
 import { Plant, Category } from '@/lib/types';
+import { FALLBACK_PLANTS, FALLBACK_CATEGORIES } from '@/lib/fallback-data';
 import PlantsCatalogClient from './PlantsCatalogClient';
 
 export const revalidate = 60;
@@ -9,7 +10,6 @@ export default async function PlantsPage({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const supabase = await createClient();
   const params = await searchParams;
 
   const search = typeof params?.search === 'string' ? params.search.trim() : '';
@@ -20,27 +20,29 @@ export default async function PlantsPage({
   const wateringFilter = typeof params?.watering === 'string' ? params.watering : '';
   const sortBy = typeof params?.sort === 'string' ? params.sort : 'name-asc';
 
-  // Fetch all categories
-  const { data: categoriesData } = await supabase.from('categories').select('*').order('name');
-  const categories = (categoriesData as Category[]) || [];
+  let categories: Category[] = FALLBACK_CATEGORIES;
+  let plants: Plant[] = FALLBACK_PLANTS;
 
-  // Fetch all plants once
-  const { data: plantsData, error } = await supabase
-    .from('plants')
-    .select('*, categories(name)')
-    .order('name');
+  try {
+    const supabase = await createClient();
 
-  const plants = (plantsData as Plant[]) || [];
+    // Fetch all categories
+    const { data: categoriesData, error: catError } = await supabase.from('categories').select('*').order('name');
+    if (!catError && categoriesData && categoriesData.length > 0) {
+      categories = categoriesData as Category[];
+    }
 
-  if (error) {
-    return (
-      <div className="container mx-auto px-4 py-16 text-center">
-        <div className="bg-red-50 text-red-800 p-8 rounded-3xl border border-red-100 max-w-lg mx-auto">
-          <h3 className="font-bold text-lg mb-1">Catalog Connection Note</h3>
-          <p className="text-sm">Unable to fetch live database: {error.message}</p>
-        </div>
-      </div>
-    );
+    // Fetch all plants
+    const { data: plantsData, error: plantError } = await supabase
+      .from('plants')
+      .select('*, categories(name)')
+      .order('name');
+
+    if (!plantError && plantsData && plantsData.length > 0) {
+      plants = plantsData as Plant[];
+    }
+  } catch (err) {
+    console.warn('Supabase fetch failed, utilizing verified nursery catalog fallback dataset.', err);
   }
 
   return (

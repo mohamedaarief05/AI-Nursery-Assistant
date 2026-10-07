@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase-server';
 import { notFound } from 'next/navigation';
 import { Plant } from '@/lib/types';
+import { FALLBACK_PLANTS } from '@/lib/fallback-data';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft, Bot, Mail, Sun, Droplets, Mountain } from 'lucide-react';
@@ -14,19 +15,30 @@ export default async function PlantDetailsPage({
   params: Promise<{ id: string }>
 }) {
   const p = await params;
-  const supabase = await createClient();
+  let plant: Plant | null = null;
 
-  const { data: plantData, error } = await supabase
-    .from('plants')
-    .select('*, categories(name)')
-    .eq('id', p.id)
-    .single();
+  try {
+    const supabase = await createClient();
+    const { data: plantData, error } = await supabase
+      .from('plants')
+      .select('*, categories(name)')
+      .eq('id', p.id)
+      .single();
 
-  if (error || !plantData) {
-    notFound();
+    if (!error && plantData) {
+      plant = plantData as Plant;
+    }
+  } catch (err) {
+    console.warn('Supabase fetch failed on plant details, checking fallback dataset.', err);
   }
 
-  const plant = plantData as Plant;
+  if (!plant) {
+    plant = FALLBACK_PLANTS.find(item => item.id === p.id || item.name.toLowerCase().replace(/\s+/g, '-') === p.id.toLowerCase()) || null;
+  }
+
+  if (!plant) {
+    notFound();
+  }
   const isAvailable = plant.availability === 'Available';
 
   return (
