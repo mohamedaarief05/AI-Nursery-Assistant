@@ -7,6 +7,7 @@ import { useCart } from '@/context/CartContext';
 import { useToast } from '@/context/ToastContext';
 import { createClient } from '@/lib/supabase';
 import { ArrowLeft, Loader2, ShieldCheck, Truck, ShoppingBag, QrCode, Banknote, Copy, CheckCircle2 } from 'lucide-react';
+import { getPlantImageUrl } from '@/lib/fallback-data';
 
 export default function CheckoutPage() {
   const { items, subtotal, deliveryFee, totalPrice, clearCart } = useCart();
@@ -400,11 +401,13 @@ export default function CheckoutPage() {
           </h3>
 
           <div className="space-y-3 max-h-72 overflow-y-auto pr-1">
-            {items.map((item) => (
+            {items.map((item) => {
+              const imgUrl = getPlantImageUrl(item.plant.name, item.plant.image_url);
+              return (
               <div key={item.plant.id} className="flex items-center gap-3 text-sm">
                 <div className="w-12 h-12 rounded-xl bg-slate-100 overflow-hidden flex-shrink-0">
-                  {item.plant.image_url ? (
-                    <img src={item.plant.image_url} alt="" className="w-full h-full object-cover" />
+                  {imgUrl ? (
+                    <img src={imgUrl} alt="" className="w-full h-full object-cover" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-xs">🪴</div>
                   )}
@@ -417,7 +420,8 @@ export default function CheckoutPage() {
                   ₹{(item.plant.price * item.quantity).toLocaleString()}
                 </div>
               </div>
-            ))}
+            );
+          })}
           </div>
 
           <div className="border-t border-slate-100 pt-3 space-y-2 text-sm">

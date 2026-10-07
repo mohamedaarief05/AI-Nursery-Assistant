@@ -4,10 +4,12 @@ import Link from 'next/link';
 import { Plant } from '@/lib/types';
 import { Bot, Info, ShoppingBag, Sun, Droplets } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
+import { getPlantImageUrl } from '@/lib/fallback-data';
 
 export default function PlantCard({ plant }: { plant: Plant }) {
   const isAvailable = plant.availability === 'Available';
   const { addItem } = useCart();
+  const imageUrl = getPlantImageUrl(plant.name, plant.image_url);
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -21,9 +23,9 @@ export default function PlantCard({ plant }: { plant: Plant }) {
     <div className="bg-white rounded-3xl border border-slate-100 overflow-hidden hover:shadow-xl hover:border-green-200 transition-all duration-300 flex flex-col h-full group">
       {/* Image Banner */}
       <div className="relative h-52 w-full bg-slate-100 overflow-hidden">
-        {plant.image_url ? (
+        {imageUrl ? (
           <img 
-            src={plant.image_url} 
+            src={imageUrl} 
             alt={plant.name}
             loading="lazy"
             decoding="async"

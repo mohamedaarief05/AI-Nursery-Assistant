@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase-server';
 import { notFound } from 'next/navigation';
 import { Plant } from '@/lib/types';
-import { FALLBACK_PLANTS } from '@/lib/fallback-data';
+import { FALLBACK_PLANTS, getPlantImageUrl } from '@/lib/fallback-data';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft, Bot, Mail, Sun, Droplets, Mountain } from 'lucide-react';
@@ -40,6 +40,7 @@ export default async function PlantDetailsPage({
     notFound();
   }
   const isAvailable = plant.availability === 'Available';
+  const imageUrl = getPlantImageUrl(plant.name, plant.image_url);
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-5xl">
@@ -51,9 +52,9 @@ export default async function PlantDetailsPage({
         <div className="flex flex-col md:flex-row">
           {/* Image */}
           <div className="w-full md:w-1/2 h-80 md:h-auto relative bg-slate-50">
-            {plant.image_url ? (
+            {imageUrl ? (
               <img 
-                src={plant.image_url} 
+                src={imageUrl} 
                 alt={plant.name}
                 className="w-full h-full object-cover"
               />

@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
 import { Trash2, Plus, Minus, ArrowRight, ArrowLeft, ShoppingBag, Truck, ShieldCheck, Sprout } from 'lucide-react';
+import { getPlantImageUrl } from '@/lib/fallback-data';
 
 export default function CartPage() {
   const { items, updateQuantity, removeItem, clearCart, subtotal, deliveryFee, totalPrice } = useCart();
@@ -57,15 +58,17 @@ export default function CartPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
           {/* Items List */}
           <div className="lg:col-span-2 space-y-4">
-            {items.map((item) => (
+            {items.map((item) => {
+              const imgUrl = getPlantImageUrl(item.plant.name, item.plant.image_url);
+              return (
               <div
                 key={item.plant.id}
                 className="bg-white p-5 rounded-3xl border border-slate-100 shadow-sm flex flex-col sm:flex-row gap-5 items-start sm:items-center"
               >
                 <div className="w-24 h-24 rounded-2xl bg-slate-100 overflow-hidden flex-shrink-0">
-                  {item.plant.image_url ? (
+                  {imgUrl ? (
                     <img
-                      src={item.plant.image_url}
+                      src={imgUrl}
                       alt={item.plant.name}
                       className="w-full h-full object-cover"
                     />
@@ -117,7 +120,8 @@ export default function CartPage() {
                   </div>
                 </div>
               </div>
-            ))}
+            );
+          })}
           </div>
 
           {/* Order Summary Sidebar */}

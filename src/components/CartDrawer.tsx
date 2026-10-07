@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { X, Trash2, Plus, Minus, ShoppingBag, ArrowRight } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
+import { getPlantImageUrl } from '@/lib/fallback-data';
 
 export default function CartDrawer() {
   const { items, isCartOpen, closeCart, updateQuantity, removeItem, subtotal, deliveryFee, totalPrice } = useCart();
@@ -86,15 +87,17 @@ export default function CartDrawer() {
                 </Link>
               </div>
             ) : (
-              items.map((item) => (
+              items.map((item) => {
+                const imgUrl = getPlantImageUrl(item.plant.name, item.plant.image_url);
+                return (
                 <div
                   key={item.plant.id}
                   className="flex gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100 relative group"
                 >
                   <div className="w-20 h-20 rounded-xl bg-slate-200 overflow-hidden flex-shrink-0">
-                    {item.plant.image_url ? (
+                    {imgUrl ? (
                       <img
-                        src={item.plant.image_url}
+                        src={imgUrl}
                         alt={item.plant.name}
                         className="w-full h-full object-cover"
                       />
@@ -141,7 +144,8 @@ export default function CartDrawer() {
                     </div>
                   </div>
                 </div>
-              ))
+              );
+            })
             )}
           </div>
 

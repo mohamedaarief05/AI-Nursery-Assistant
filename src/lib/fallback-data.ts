@@ -1,5 +1,46 @@
 import { Plant, Category } from './types';
 
+export const LOCAL_PLANT_IMAGES: Record<string, string> = {
+  'rose': '/plants/rose.jpg',
+  'jasmine': '/plants/jasmine.jpg',
+  'money plant': '/plants/money-plant.jpg',
+  'snake plant': '/plants/snake-plant.jpg',
+  'peace lily': '/plants/peace-lily.jpg',
+  'aloe vera': '/plants/aloe-vera.jpg',
+  'areca palm': '/plants/areca-palm.jpg',
+  'tulsi': '/plants/tulsi-holy-basil.jpg',
+  'tulsi (holy basil)': '/plants/tulsi-holy-basil.jpg',
+  'bougainvillea': '/plants/bougainvillea.jpg',
+  'lemon tree': '/plants/lemon-tree.jpg',
+  'mango tree': '/plants/mango-tree-alphonso.jpg',
+  'mango tree (alphonso)': '/plants/mango-tree-alphonso.jpg',
+  'tomato plant': '/plants/tomato-plant.jpg',
+  'mint': '/plants/mint.jpg',
+  'mint (pudina)': '/plants/mint.jpg',
+  'hibiscus': '/plants/hibiscus.jpg',
+  'fiddle leaf fig': '/plants/fiddle-leaf-fig.jpg'
+};
+
+export function getPlantImageUrl(name?: string, existingUrl?: string): string {
+  if (name) {
+    const key = name.trim().toLowerCase();
+    if (LOCAL_PLANT_IMAGES[key]) {
+      return LOCAL_PLANT_IMAGES[key];
+    }
+    // Try fuzzy match on normalized key
+    const normalized = key.replace(/[^a-z0-9]/g, '');
+    for (const [k, url] of Object.entries(LOCAL_PLANT_IMAGES)) {
+      if (k.replace(/[^a-z0-9]/g, '') === normalized) {
+        return url;
+      }
+    }
+  }
+  if (existingUrl && existingUrl.startsWith('/plants/')) {
+    return existingUrl;
+  }
+  return existingUrl || '/plants/rose.jpg';
+}
+
 export const FALLBACK_CATEGORIES: Category[] = [
   { id: 'cat-flower', name: 'Flower Plants' },
   { id: 'cat-indoor', name: 'Indoor Plants' },
@@ -21,7 +62,7 @@ export const FALLBACK_PLANTS: Plant[] = [
     watering: 'Daily',
     soil: 'Well-drained loamy soil',
     care_instructions: 'Prune regularly to encourage new growth and remove wilted blossoms.',
-    image_url: 'https://images.unsplash.com/photo-1496062031456-07b8f162a322?w=500&q=80',
+    image_url: '/plants/rose.jpg',
     categories: { name: 'Flower Plants' }
   },
   {
@@ -35,7 +76,7 @@ export const FALLBACK_PLANTS: Plant[] = [
     watering: 'Daily',
     soil: 'Moist, well-drained rich soil',
     care_instructions: 'Needs support to climb. Feed with balanced organic fertilizer monthly.',
-    image_url: 'https://images.unsplash.com/photo-1599824245657-3a116b47c617?w=500&q=80',
+    image_url: '/plants/jasmine.jpg',
     categories: { name: 'Flower Plants' }
   },
   {
@@ -49,7 +90,7 @@ export const FALLBACK_PLANTS: Plant[] = [
     watering: 'Weekly',
     soil: 'Well-drained potting mix',
     care_instructions: 'Allow top soil to dry between waterings. Can grow in soil or water jars.',
-    image_url: 'https://images.unsplash.com/photo-1621274403997-37aace184f49?w=500&q=80',
+    image_url: '/plants/money-plant.jpg',
     categories: { name: 'Indoor Plants' }
   },
   {
@@ -63,7 +104,7 @@ export const FALLBACK_PLANTS: Plant[] = [
     watering: 'Rarely (every 2-3 weeks)',
     soil: 'Sandy, well-drained mix',
     care_instructions: 'Do not overwater. Allow soil to dry out completely between waterings.',
-    image_url: 'https://images.unsplash.com/photo-1593482892290-f54927ae2b7e?w=500&q=80',
+    image_url: '/plants/snake-plant.jpg',
     categories: { name: 'Indoor Plants' }
   },
   {
@@ -77,7 +118,7 @@ export const FALLBACK_PLANTS: Plant[] = [
     watering: 'Weekly (when soil feels dry)',
     soil: 'Moist, rich, well-drained potting mix',
     care_instructions: 'Keep soil slightly moist but not waterlogged. Wipe leaves to remove dust.',
-    image_url: 'https://images.unsplash.com/photo-1593691509543-c20fb514074d?w=500&q=80',
+    image_url: '/plants/peace-lily.jpg',
     categories: { name: 'Indoor Plants' }
   },
   {
@@ -91,7 +132,7 @@ export const FALLBACK_PLANTS: Plant[] = [
     watering: 'Rarely (every 2 weeks)',
     soil: 'Cactus & succulent mix',
     care_instructions: 'Requires well-draining pot with drainage holes. Avoid standing water.',
-    image_url: 'https://images.unsplash.com/photo-1596547609652-9fc5d8d4285b?w=500&q=80',
+    image_url: '/plants/aloe-vera.jpg',
     categories: { name: 'Indoor Plants' }
   },
   {
@@ -105,7 +146,7 @@ export const FALLBACK_PLANTS: Plant[] = [
     watering: '2-3 times a week',
     soil: 'Rich, peat-based potting soil',
     care_instructions: 'Mist leaves occasionally to boost humidity and prevent brown leaf tips.',
-    image_url: 'https://images.unsplash.com/photo-1600411833196-7c1f6b1a8b90?w=500&q=80',
+    image_url: '/plants/areca-palm.jpg',
     categories: { name: 'Decorative Plants' }
   },
   {
@@ -119,7 +160,7 @@ export const FALLBACK_PLANTS: Plant[] = [
     watering: 'Daily',
     soil: 'Fertile, well-drained loamy soil',
     care_instructions: 'Pinch flower tops to promote lush bushy leaf growth.',
-    image_url: 'https://images.unsplash.com/photo-1613521140785-e85e427f8002?w=500&q=80',
+    image_url: '/plants/tulsi-holy-basil.jpg',
     categories: { name: 'Outdoor Plants' }
   },
   {
@@ -133,7 +174,7 @@ export const FALLBACK_PLANTS: Plant[] = [
     watering: 'A few times a week',
     soil: 'Well-drained sandy loam',
     care_instructions: 'Thrives in direct sun with moderate watering. Prune post-bloom.',
-    image_url: 'https://images.unsplash.com/photo-1595163651134-45371c4c1a4e?w=500&q=80',
+    image_url: '/plants/bougainvillea.jpg',
     categories: { name: 'Outdoor Plants' }
   },
   {
@@ -147,7 +188,7 @@ export const FALLBACK_PLANTS: Plant[] = [
     watering: 'A few times a week',
     soil: 'Slightly acidic citrus soil mix',
     care_instructions: 'Feed with citrus fertilizer in spring. Water deeply when topsoil dries.',
-    image_url: 'https://images.unsplash.com/photo-1590494165264-1ebe3602eb80?w=500&q=80',
+    image_url: '/plants/lemon-tree.jpg',
     categories: { name: 'Fruit Plants' }
   },
   {
@@ -161,7 +202,7 @@ export const FALLBACK_PLANTS: Plant[] = [
     watering: 'Daily',
     soil: 'Rich, compost-rich soil',
     care_instructions: 'Provide staking or trellis support as fruit branches develop.',
-    image_url: 'https://images.unsplash.com/photo-1592841200221-a6898f307baa?w=500&q=80',
+    image_url: '/plants/tomato-plant.jpg',
     categories: { name: 'Vegetable Plants' }
   },
   {
@@ -175,7 +216,7 @@ export const FALLBACK_PLANTS: Plant[] = [
     watering: 'Daily (keep moist)',
     soil: 'Moist, organic-rich soil',
     care_instructions: 'Grow in pots to control roots and trim stems regularly for fresh growth.',
-    image_url: 'https://images.unsplash.com/photo-1628156108489-307a01dc02ba?w=500&q=80',
+    image_url: '/plants/mint.jpg',
     categories: { name: 'Vegetable Plants' }
   },
   {
@@ -189,7 +230,7 @@ export const FALLBACK_PLANTS: Plant[] = [
     watering: 'Daily',
     soil: 'Rich, well-draining soil',
     care_instructions: 'Protect from heavy frosts and fertilize with high-potassium plant food.',
-    image_url: 'https://images.unsplash.com/photo-1555541011-8e3e4a2d1d05?w=500&q=80',
+    image_url: '/plants/hibiscus.jpg',
     categories: { name: 'Flower Plants' }
   },
   {
@@ -203,7 +244,7 @@ export const FALLBACK_PLANTS: Plant[] = [
     watering: 'Weekly',
     soil: 'Well-draining indoor potting mix',
     care_instructions: 'Keep away from AC drafts and wipe large leaves periodically.',
-    image_url: 'https://images.unsplash.com/photo-1550522105-9a84a66e60b2?w=500&q=80',
+    image_url: '/plants/fiddle-leaf-fig.jpg',
     categories: { name: 'Decorative Plants' }
   }
 ];
