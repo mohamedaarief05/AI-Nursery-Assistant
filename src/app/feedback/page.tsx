@@ -11,13 +11,26 @@ export default function FeedbackPage() {
   const [feedback, setFeedback] = useState('');
   const [category, setCategory] = useState('Website Speed & Ease of Use');
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!feedback.trim()) return;
 
-    // Save locally
+    setIsSubmitting(true);
     try {
+      await fetch('/api/feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name.trim() || 'Anonymous User',
+          role,
+          rating,
+          category,
+          feedback: feedback.trim(),
+        }),
+      });
+
       const existing = JSON.parse(localStorage.getItem('customer_feedback_list') || '[]');
       const newEntry = {
         id: Date.now(),
@@ -29,11 +42,12 @@ export default function FeedbackPage() {
         date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
       };
       localStorage.setItem('customer_feedback_list', JSON.stringify([newEntry, ...existing]));
-    } catch {
-      // Local fallback
+    } catch (err) {
+      console.error('Error submitting feedback:', err);
+    } finally {
+      setIsSubmitting(false);
+      setSubmitted(true);
     }
-
-    setSubmitted(true);
   };
 
   return (
@@ -177,9 +191,16 @@ export default function FeedbackPage() {
 
               <button
                 type="submit"
-                className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3.5 rounded-2xl transition shadow-sm text-sm flex items-center justify-center gap-2"
+                disabled={isSubmitting}
+                className="w-full bg-emerald-600 hover:bg-emerald-700 active:scale-95 disabled:opacity-60 text-white font-extrabold py-3.5 rounded-2xl transition shadow-sm text-sm flex items-center justify-center gap-2"
               >
-                <Send className="w-4 h-4" /> Submit Customer Review
+                {isSubmitting ? (
+                  <>Submitting Review...</>
+                ) : (
+                  <>
+                    <Send className="w-4 h-4" /> Submit Customer Review
+                  </>
+                )}
               </button>
             </form>
           </div>

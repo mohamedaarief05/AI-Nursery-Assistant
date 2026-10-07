@@ -23,7 +23,7 @@ The **AI Nursery Assistant** is a web-based retail and care guidance system buil
 
 Local plant nurseries and urban plant buyers face several operational and decision-making challenges:
 1. **Plant Buyer Uncertainty**: Difficulty selecting plants matching specific home lighting conditions (direct sunlight vs low-light indoor spaces) and budget parameters.
-2. **High Plant Mortality Rate**: Lack of accessible, step-by-step watering, soil mix, and disease treatment instructions leading to plant failure.
+2. **Avoidable Plant-Care Mistakes**: Lack of accessible, step-by-step watering, soil mix, and disease treatment instructions leading to plant health failure.
 3. **Off-Hours Care Support Gap**: Customers cannot get instant plant care answers outside standard nursery operating hours.
 4. **Staff Overload**: Nursery staff experience heavy customer inquiry backlogs during busy weekend hours.
 

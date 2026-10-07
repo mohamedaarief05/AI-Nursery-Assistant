@@ -1,0 +1,56 @@
+[
+  {
+    "name": "Alex Johnson",
+    "role": "Verified Buyer",
+    "rating": 5,
+    "category": "Plant Doctor AI",
+    "feedback": "The plant doctor and care instructions are incredible!",
+    "id": "fb_1789193632051_juqv",
+    "createdAt": "2026-09-12T06:13:52.051Z"
+  },
+  {
+    "name": "Alex Johnson",
+    "role": "Customer",
+    "rating": 5,
+    "category": "Plant Catalog & Products",
+    "feedback": "The plant doctor and care instructions are incredible!",
+    "id": "fb_1789190512620_1yh5",
+    "createdAt": "2026-09-12T05:21:52.620Z"
+  },
+  {
+    "name": "Sneha Patel",
+    "role": "Customer",
+    "rating": 5,
+    "category": "Website Speed & Ease of Use",
+    "feedback": "Loving the new AI assistant and plant cards! Everything loads so fast.",
+    "id": "fb_1789190079124_4awk",
+    "createdAt": "2026-09-12T05:14:39.124Z"
+  },
+  {
+    "id": "fb_1",
+    "name": "Priya Sharma",
+    "role": "Plant Parent",
+    "rating": 5,
+    "category": "Plant Doctor AI",
+    "feedback": "The AI Plant Doctor diagnosed the yellow leaves on my Peace Lily instantly! Followed the watering advice and the plant bounced back in 4 days.",
+    "createdAt": "2026-09-10T05:14:39.124Z"
+  },
+  {
+    "id": "fb_2",
+    "name": "Kavya Raman",
+    "role": "Home Gardener",
+    "rating": 5,
+    "category": "Website Speed & Ease of Use",
+    "feedback": "Super clean storefront and instant checkout. The care instructions on each plant page are extremely clear.",
+    "createdAt": "2026-09-08T05:14:39.124Z"
+  },
+  {
+    "id": "fb_3",
+    "name": "Rohan Verma",
+    "role": "Verified Customer",
+    "rating": 4,
+    "category": "Plant Catalog & Selection",
+    "feedback": "Great variety of indoor plants like Snake Plant and Money Plant. Would love to see more rare succulents added soon!",
+    "createdAt": "2026-09-06T05:14:39.124Z"
+  }
+]

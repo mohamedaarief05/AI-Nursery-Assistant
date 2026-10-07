@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Enquiry } from '@/lib/types';
-import { Mail, Phone, Calendar, MessageSquare, Send, X, Search, CheckCircle } from 'lucide-react';
+import { Mail, Phone, Calendar, MessageSquare, Send, X, Search, CheckCircle, Sparkles, Loader2, Bot } from 'lucide-react';
 import { createClient } from '@/lib/supabase';
 import { useToast } from '@/context/ToastContext';
 
@@ -14,7 +14,51 @@ export default function EnquiriesClient({ initialEnquiries }: { initialEnquiries
   const [selectedEnquiry, setSelectedEnquiry] = useState<Enquiry | null>(null);
   const [replyText, setReplyText] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isGeneratingAi, setIsGeneratingAi] = useState(false);
+  const [tone, setTone] = useState<'friendly' | 'concise' | 'expert'>('friendly');
   const { success, error: toastError } = useToast();
+
+  const handleGenerateAiReply = async (enquiry?: Enquiry, requestedTone?: 'friendly' | 'concise' | 'expert') => {
+    const target = enquiry || selectedEnquiry;
+    if (!target) return;
+
+    const activeTone = requestedTone || tone;
+    setIsGeneratingAi(true);
+
+    try {
+      const res = await fetch('/api/draft-enquiry-reply', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          customerName: target.customer_name,
+          message: target.message,
+          plantName: target.plants?.name || null,
+          tone: activeTone,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to draft AI reply.');
+      }
+
+      setReplyText(data.reply);
+      success('✨ AI drafted response generated!');
+    } catch (err: any) {
+      toastError(err.message || 'Error generating AI reply.');
+    } finally {
+      setIsGeneratingAi(false);
+    }
+  };
+
+  const openReplyModalWithAi = async (enquiry: Enquiry) => {
+    setSelectedEnquiry(enquiry);
+    setReplyText(enquiry.admin_reply || '');
+    setIsReplyModalOpen(true);
+    if (!enquiry.admin_reply) {
+      await handleGenerateAiReply(enquiry);
+    }
+  };
 
   const handleStatusChange = async (id: string, newStatus: string) => {
     const previous = [...enquiries];
@@ -210,13 +254,24 @@ export default function EnquiriesClient({ initialEnquiries }: { initialEnquiries
                         <option value="Completed">Completed</option>
                       </select>
                       
-                      <button 
-                        onClick={() => openReplyModal(enquiry)}
-                        className="flex items-center justify-center bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold py-1.5 px-3 rounded-lg transition"
-                      >
-                        <MessageSquare className="w-3.5 h-3.5 mr-1.5 text-emerald-600" />
-                        {enquiry.admin_reply ? 'Edit Reply' : 'Send Reply'}
-                      </button>
+                      <div className="flex flex-col gap-1.5">
+                        <button 
+                          onClick={() => openReplyModal(enquiry)}
+                          className="flex items-center justify-center bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold py-1.5 px-3 rounded-lg transition"
+                        >
+                          <MessageSquare className="w-3.5 h-3.5 mr-1.5 text-slate-500" />
+                          {enquiry.admin_reply ? 'Edit Reply' : 'Reply'}
+                        </button>
+                        
+                        <button 
+                          onClick={() => openReplyModalWithAi(enquiry)}
+                          className="flex items-center justify-center bg-gradient-to-r from-emerald-50 to-teal-50 hover:from-emerald-100 hover:to-teal-100 border border-emerald-200 text-emerald-800 text-xs font-bold py-1.5 px-3 rounded-lg transition shadow-2xs group"
+                          title="Generate instant AI reply based on catalog and message"
+                        >
+                          <Sparkles className="w-3.5 h-3.5 mr-1.5 text-emerald-600 group-hover:rotate-12 transition-transform" />
+                          ✨ AI Draft
+                        </button>
+                      </div>
                     </div>
                   </td>
                 </tr>
@@ -239,44 +294,117 @@ export default function EnquiriesClient({ initialEnquiries }: { initialEnquiries
         <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in-95">
             <div className="flex justify-between items-center p-6 border-b border-slate-100 bg-slate-50">
-              <h3 className="text-lg font-black text-slate-800">Reply to {selectedEnquiry.customer_name}</h3>
+              <div>
+                <h3 className="text-lg font-black text-slate-800">Reply to {selectedEnquiry.customer_name}</h3>
+                {selectedEnquiry.plants?.name && (
+                  <span className="inline-flex items-center mt-1 px-2 py-0.5 rounded-md text-[11px] font-semibold bg-emerald-100 text-emerald-800">
+                    🌱 Plant: {selectedEnquiry.plants.name}
+                  </span>
+                )}
+              </div>
               <button onClick={() => setIsReplyModalOpen(false)} className="text-slate-400 hover:text-slate-600 p-1">
                 <X className="w-5 h-5" />
               </button>
             </div>
+            
             <div className="p-6 space-y-4">
               <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-sm">
                 <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Customer's Message:</p>
                 <p className="text-slate-700 italic font-medium">"{selectedEnquiry.message}"</p>
               </div>
 
+              {/* AI Auto-Reply Generator Toolbar */}
+              <div className="bg-gradient-to-br from-emerald-50/70 via-teal-50/50 to-slate-50 p-3.5 rounded-2xl border border-emerald-100/80">
+                <div className="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+                  <div className="flex items-center gap-1.5 text-xs font-black text-emerald-900">
+                    <Sparkles className="w-4 h-4 text-emerald-600 animate-pulse" />
+                    <span>Gemini AI Auto-Reply</span>
+                  </div>
+                  
+                  <button
+                    type="button"
+                    disabled={isGeneratingAi}
+                    onClick={() => handleGenerateAiReply()}
+                    className="inline-flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 active:scale-95 disabled:opacity-50 text-white text-xs font-bold py-1.5 px-3 rounded-xl shadow-xs transition"
+                  >
+                    {isGeneratingAi ? (
+                      <>
+                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                        Generating...
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="w-3.5 h-3.5" />
+                        {replyText ? 'Re-draft with AI' : 'Draft Reply with AI'}
+                      </>
+                    )}
+                  </button>
+                </div>
+
+                {/* Tone Selector Pills */}
+                <div className="flex items-center gap-1.5">
+                  <span className="text-[11px] font-semibold text-slate-500 mr-1">Tone:</span>
+                  {(['friendly', 'concise', 'expert'] as const).map((t) => (
+                    <button
+                      key={t}
+                      type="button"
+                      onClick={() => {
+                        setTone(t);
+                        handleGenerateAiReply(selectedEnquiry, t);
+                      }}
+                      disabled={isGeneratingAi}
+                      className={`text-[11px] font-bold px-2.5 py-1 rounded-lg border transition ${
+                        tone === t
+                          ? 'bg-white text-emerald-700 border-emerald-300 shadow-2xs'
+                          : 'bg-transparent text-slate-600 border-transparent hover:bg-white/60'
+                      }`}
+                    >
+                      {t === 'friendly' ? '🌱 Warm & Friendly' : t === 'concise' ? '⚡ Direct' : '🔬 Care Expert'}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-                  Your Reply (Saved & displayed on customer profile)
+                  Your Response (Will be sent & visible in customer profile)
                 </label>
                 <textarea
                   value={replyText}
                   onChange={(e) => setReplyText(e.target.value)}
-                  className="w-full h-32 p-3.5 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-emerald-500 focus:bg-white text-sm outline-none resize-none"
-                  placeholder="Type your response to the customer here..."
+                  className="w-full h-44 p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-emerald-500 focus:bg-white text-sm text-slate-800 leading-relaxed outline-none transition"
+                  placeholder="Type your response or click 'Draft Reply with AI' above..."
                 />
               </div>
             </div>
-            <div className="p-4 border-t border-slate-100 bg-slate-50 flex justify-end gap-3">
-              <button 
-                onClick={() => setIsReplyModalOpen(false)}
-                className="px-4 py-2 font-semibold text-slate-600 hover:bg-slate-200 rounded-xl text-xs transition"
-              >
-                Cancel
-              </button>
-              <button 
-                onClick={handleSendReply}
-                disabled={isSubmitting || !replyText.trim()}
-                className="px-5 py-2 font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl text-xs transition flex items-center gap-1.5 shadow-md disabled:opacity-50"
-              >
-                <Send className="w-3.5 h-3.5" />
-                {isSubmitting ? 'Sending...' : 'Save & Send Reply'}
-              </button>
+
+            <div className="p-4 border-t border-slate-100 bg-slate-50 flex items-center justify-between">
+              {replyText ? (
+                <button
+                  type="button"
+                  onClick={() => setReplyText('')}
+                  className="text-xs text-slate-400 hover:text-slate-600 font-semibold px-2 py-1"
+                >
+                  Clear text
+                </button>
+              ) : <div />}
+              
+              <div className="flex items-center gap-2">
+                <button 
+                  onClick={() => setIsReplyModalOpen(false)}
+                  className="px-4 py-2 font-semibold text-slate-600 hover:bg-slate-200 rounded-xl text-xs transition"
+                >
+                  Cancel
+                </button>
+                <button 
+                  onClick={handleSendReply}
+                  disabled={isSubmitting || !replyText.trim()}
+                  className="px-5 py-2 font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl text-xs transition flex items-center gap-1.5 shadow-md disabled:opacity-50"
+                >
+                  <Send className="w-3.5 h-3.5" />
+                  {isSubmitting ? 'Sending...' : 'Save & Send Reply'}
+                </button>
+              </div>
             </div>
           </div>
         </div>

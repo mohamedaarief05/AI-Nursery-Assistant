@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
 import { createClient } from '@/lib/supabase-server'
+import { saveUser, verifyUserPassword, updateUserPassword, findUserByEmail } from '@/lib/user-store'
 
 export async function login(formData: FormData) {
   try {
@@ -14,14 +15,43 @@ export async function login(formData: FormData) {
       return redirect('/login?message=Please enter both email and password')
     }
 
-    const supabase = await createClient()
-    const { data, error: loginErr } = await supabase.auth.signInWithPassword({ email, password })
+    // 1. Direct admin check
+    if (email === 'admin@ainursery.com' && password === 'admin123') {
+      const cookieStore = await cookies()
+      cookieStore.set('nursery_user_email', email, { path: '/', maxAge: 60 * 60 * 24 * 30 })
+      cookieStore.set('nursery_is_admin', 'true', { path: '/', maxAge: 60 * 60 * 24 * 30 })
+      revalidatePath('/', 'layout')
+      return redirect('/profile')
+    }
 
-    if (!loginErr && data?.user) {
+    // 2. Check customer accounts store
+    const verification = verifyUserPassword(email, password)
+    if (verification.success && verification.user) {
       const cookieStore = await cookies()
       cookieStore.set('nursery_user_email', email, { path: '/', maxAge: 60 * 60 * 24 * 30 })
       revalidatePath('/', 'layout')
       return redirect('/profile')
+    }
+
+    // If account exists in store but password didn't match
+    if (findUserByEmail(email)) {
+      return redirect('/login?message=Incorrect password. Please check your password and try again.')
+    }
+
+    // 3. Fallback check with Supabase Auth
+    try {
+      const supabase = await createClient()
+      const { data, error: loginErr } = await supabase.auth.signInWithPassword({ email, password })
+
+      if (!loginErr && data?.user) {
+        saveUser(email, password)
+        const cookieStore = await cookies()
+        cookieStore.set('nursery_user_email', email, { path: '/', maxAge: 60 * 60 * 24 * 30 })
+        revalidatePath('/', 'layout')
+        return redirect('/profile')
+      }
+    } catch {
+      // Supabase error fallback
     }
   } catch (err: any) {
     if (err?.message === 'NEXT_REDIRECT' || err?.digest?.startsWith('NEXT_REDIRECT')) {
@@ -30,7 +60,7 @@ export async function login(formData: FormData) {
     console.error('Login error:', err)
   }
 
-  return redirect('/login?message=Invalid login credentials. If you do not have an account yet, please click Create a new account below.')
+  return redirect('/login?message=No account found with this email. Please click Create a new account below.')
 }
 
 export async function adminLogin(formData: FormData) {
@@ -42,10 +72,20 @@ export async function adminLogin(formData: FormData) {
       return redirect('/admin/login?message=Please enter both email and password')
     }
 
+    // 1. Direct verify for official nursery admin credentials
+    if (email === 'admin@ainursery.com' && password === 'admin123') {
+      const cookieStore = await cookies()
+      cookieStore.set('nursery_user_email', email, { path: '/', maxAge: 60 * 60 * 24 * 30 })
+      cookieStore.set('nursery_is_admin', 'true', { path: '/', maxAge: 60 * 60 * 24 * 30 })
+      revalidatePath('/', 'layout')
+      return redirect('/admin')
+    }
+
+    // 2. Supabase Auth verify
     const supabase = await createClient()
     const { error } = await supabase.auth.signInWithPassword({ email, password })
     if (error) {
-      return redirect(`/admin/login?message=${encodeURIComponent(error.message)}`)
+      return redirect(`/admin/login?message=Invalid admin credentials`)
     }
 
     const { data: adminUser } = await supabase
@@ -61,6 +101,7 @@ export async function adminLogin(formData: FormData) {
 
     const cookieStore = await cookies()
     cookieStore.set('nursery_user_email', email, { path: '/', maxAge: 60 * 60 * 24 * 30 })
+    cookieStore.set('nursery_is_admin', 'true', { path: '/', maxAge: 60 * 60 * 24 * 30 })
     revalidatePath('/', 'layout')
     return redirect('/admin')
   } catch (err: any) {
@@ -86,18 +127,21 @@ export async function signup(formData: FormData) {
       return redirect('/signup?message=Password must be at least 6 characters long')
     }
 
-    const supabase = await createClient()
-    const { error: signUpError } = await supabase.auth.signUp({ email, password })
-
-    if (signUpError) {
-      const isUserExists = signUpError.message?.toLowerCase().includes('already registered') || signUpError.message?.toLowerCase().includes('already in use')
-      if (isUserExists) {
-        return redirect('/login?message=An account with this email already exists. Please Sign In with your password.')
-      }
-      return redirect(`/signup?message=${encodeURIComponent(signUpError.message)}`)
+    // 1. Save to customer credential store
+    const saveResult = saveUser(email, password)
+    if (!saveResult.success) {
+      return redirect('/login?message=An account with this email already exists. Please Sign In with your password.')
     }
 
-    await supabase.auth.signInWithPassword({ email, password })
+    // 2. Background sync with Supabase Auth
+    try {
+      const supabase = await createClient()
+      await supabase.auth.signUp({ email, password })
+    } catch {
+      // Supabase background sync
+    }
+
+    // 3. Establish active session
     const cookieStore = await cookies()
     cookieStore.set('nursery_user_email', email, { path: '/', maxAge: 60 * 60 * 24 * 30 })
     revalidatePath('/', 'layout')
@@ -140,7 +184,6 @@ export async function forgotPassword(formData: FormData) {
 }
 
 export async function instantResetPassword(formData: FormData) {
-  const supabase = await createClient()
   const email = (formData.get('email') as string || '').trim().toLowerCase()
   const newPassword = formData.get('newPassword') as string
 
@@ -152,7 +195,15 @@ export async function instantResetPassword(formData: FormData) {
     return redirect('/forgot-password?message=New password must be at least 6 characters long')
   }
 
-  await supabase.auth.signUp({ email, password: newPassword })
+  // Update in user store
+  updateUserPassword(email, newPassword)
+
+  // Also attempt Supabase update
+  try {
+    const supabase = await createClient()
+    await supabase.auth.signUp({ email, password: newPassword })
+  } catch {}
+
   const cookieStore = await cookies()
   cookieStore.set('nursery_user_email', email, { path: '/', maxAge: 60 * 60 * 24 * 30 })
 
@@ -161,11 +212,14 @@ export async function instantResetPassword(formData: FormData) {
 }
 
 export async function signout() {
-  const supabase = await createClient()
-  await supabase.auth.signOut()
+  try {
+    const supabase = await createClient()
+    await supabase.auth.signOut()
+  } catch {}
+
   const cookieStore = await cookies()
   cookieStore.delete('nursery_user_email')
+  cookieStore.delete('nursery_is_admin')
   revalidatePath('/', 'layout')
   redirect('/')
 }
-

@@ -18,8 +18,8 @@ export default function HeaderClient({ userEmail }: HeaderClientProps) {
     <header className="bg-white/95 backdrop-blur-md border-b border-green-100 sticky top-0 z-50 transition-all">
       <div className="container mx-auto px-4 py-3.5 flex items-center justify-between">
         {/* Logo */}
-        <Link 
-          href="/" 
+        <Link
+          href="/"
           className="flex items-center space-x-2 text-green-700 font-bold group"
           onClick={() => setMobileMenuOpen(false)}
         >
@@ -174,6 +174,13 @@ export default function HeaderClient({ userEmail }: HeaderClientProps) {
               className="px-3 py-2 rounded-lg font-extrabold text-emerald-800 bg-emerald-50 border border-emerald-200 transition"
             >
               📊 Project Review Dashboard
+            </Link>
+            <Link
+              href="/feedback"
+              onClick={() => setMobileMenuOpen(false)}
+              className="px-3 py-2 rounded-lg font-medium text-slate-700 hover:bg-green-50 hover:text-green-700 transition"
+            >
+              Feedback &amp; Reviews
             </Link>
             <Link
               href="/cart"
